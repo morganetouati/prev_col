@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">نظرة للعالم</string>
+    
+    <!-- Main Activity -->
+    <string name="app_title">👁️ نظرة للعالم</string>
+    <string name="app_subtitle">إحصائياتك وشاراتك</string>
+    <string name="quick_settings_hint">💡 فعّل المراقبة من الإعدادات السريعة (أيقونة 👁️)</string>
+    <string name="stats_title">📊 الإحصائيات</string>
+    <string name="points_label">🎯 النقاط: %1$d | %2$s</string>
+    <string name="alerts_label">⚠️ التنبيهات المتجنبة: %d</string>
+    <string name="rapid_label">⚡ الاقترابات السريعة: %d</string>
+    <string name="streak_label">🔥 السلسلة: %d يوم</string>
+    <string name="next_level_label">➡️ %d نقطة للمستوى التالي</string>
+    <string name="badges_title">🏆 الشارات المفتوحة</string>
+    <string name="no_badges">لا توجد شارات مفتوحة</string>
+    <string name="refresh_button">🔄 تحديث</string>
+    <string name="stats_refreshed">تم تحديث الإحصائيات!</string>
+    
+    <!-- Privacy Activity -->
+    <string name="privacy_title">نظرة للعالم</string>
+    <string name="privacy_subtitle">حارسك الشخصي الخفي</string>
+    <string name="privacy_section_title">🔒 خصوصيتك محمية</string>
+    <string name="privacy_guarantees">✅  معالجة 100%% على هاتفك\n✅  لا يتم تخزين أو إرسال أي صور\n✅  لا حاجة لحساب\n✅  لا يتم جمع بيانات شخصية\n✅  يعمل بدون إنترنت</string>
+    <string name="permissions_title">📋 الأذونات المطلوبة</string>
+    <string name="permissions_list">📷  الكاميرا: كشف الأشخاص/الحيوانات (لا يتم حفظ الصور)\n📡  التراكب: عرض رادار HUD\n📳  الاهتزاز: تنبيهات القرب</string>
+    <string name="accept_button">فهمت، متابعة</string>
+    <string name="privacy_policy_link">سياسة الخصوصية</string>
+    
+    <!-- Accessibility Section -->
+    <string name="accessibility_title">♿ تطبيق سهل الوصول</string>
+    <string name="accessibility_text">✅ متوافق مع TalkBack (قارئ الشاشة)\n✅ تنبيهات اهتزازية للصم\n✅ تنبيهات صوتية للمكفوفين\n✅ ألوان متباينة لعمى الألوان</string>
+    
+    <!-- Notifications -->
+    <string name="service_channel_name">خدمة المراقبة</string>
+    <string name="service_channel_desc">إشعار خفي يشير إلى المراقبة النشطة</string>
+    <string name="alert_channel_name">تنبيهات القرب</string>
+    <string name="alert_channel_desc">تنبيهات عندما يقترب شخص ما كثيراً</string>
+    <string name="notification_title">👁️ نظرة للعالم</string>
+    <string name="status_phone_idle">📋 الهاتف موضوع - انتظار</string>
+    <string name="status_camera_detection">👀 الكاميرا نشطة - كشف!</string>
+    <string name="status_walking_detection">👀 يمشي - كشف نشط</string>
+    <string name="status_camera_clear">👁️ الكاميرا نشطة - آمن</string>
+    <string name="status_walking_clear">🚶 يمشي - آمن (لا شيء حول)</string>
+    <string name="stop_action">توقف</string>
+    <string name="alert_rapid">%1$s ⚡ اقتراب سريع!</string>
+    <string name="alert_danger">%1$s 🔴 خطر: %2$s قريب جداً!</string>
+    <string name="alert_warning">%1$s 🟠 تنبيه: %2$s يقترب</string>
+    <string name="alert_message" formatted="false">%s (%.2fm) - المسافة: %.1f م</string>
+    
+    <!-- Object Types -->
+    <string name="object_adult">بالغ</string>
+    <string name="object_child">طفل</string>
+    <string name="object_baby">رضيع</string>
+    <string name="object_small_dog">كلب صغير</string>
+    <string name="object_medium_dog">كلب متوسط</string>
+    <string name="object_large_dog">كلب كبير</string>
+    
+    <!-- Badges -->
+    <string name="badge_first_alert">🥉 النظرة الأولى — تم تجنب التنبيه الأول</string>
+    <string name="badge_danger_zone">🥈 منطقة الخطر — 20 تنبيه خطر</string>
+    <string name="badge_centurion">🏅 المئوي — 100 تنبيه خطر</string>
+    <string name="badge_guardian">🥇 حارس الشارع — 100 نقطة</string>
+    <string name="badge_expert_500">💎 خبير — 500 نقطة</string>
+    <string name="badge_always_aware">👁️ سيد اليقظة — 1000 نقطة</string>
+    <string name="badge_speedster">⚡ سريع — أول اقتراب سريع</string>
+    <string name="badge_speedster_10">🌩️ البرق — 10 اقترابات سريعة</string>
+    <string name="badge_streak_5">🔥 مشتعل — 5 أيام متتالية</string>
+    <string name="badge_streak_30">💪 إرادة حديدية — 30 يوماً متتالياً</string>
+    <string name="badge_protecteur">👶 حامي — 10 أطفال/رضع تم كشفهم</string>
+    <string name="badge_ami_betes">🐾 صديق الحيوانات — 10 حيوانات تم كشفها</string>
+    
+    <!-- Levels -->
+    <string name="level_1">🌱 مبتدئ</string>
+    <string name="level_2">🚶 متوسط</string>
+    <string name="level_3">👁️ مؤكد</string>
+    <string name="level_4">⚡ خبير</string>
+    <string name="level_5">🏆 سيد</string>
+    
+    <!-- Permissions -->
+    <string name="permission_dialog_title">📡 الأذونات المطلوبة</string>
+    <string name="permission_dialog_message">لعرض رادار HUD واستخدام كشف الكاميرا الحقيقي، يحتاج التطبيق إذنين.\n\n👁️ تراكب الشاشة: للرادار\n📷 الكاميرا: كشف حقيقي على الجهاز (لا ترسل بيانات)</string>
+    <string name="permission_overlay_button">السماح بالتراكب</string>
+    <string name="permission_later">لاحقاً</string>
+    <string name="camera_granted">📷 تم السماح بالكاميرا - الكشف الحقيقي مفعّل!</string>
+    <string name="camera_denied">⚠️ وضع المحاكاة (بدون كاميرا)</string>
+    <string name="overlay_granted">تم تفعيل رادار HUD!</string>
+    
+    <!-- Language selector -->
+    <string name="language_button_desc">تغيير اللغة</string>
+    <string name="language_dialog_title">🌍 اختر اللغة</string>
+    <string name="language_fr">🇫🇷 Français</string>
+    <string name="language_en">🇬🇧 English</string>
+    <string name="language_es">🇪🇸 Español</string>
+    <string name="language_de">🇩🇪 Deutsch</string>
+    <string name="language_it">🇮🇹 Italiano</string>
+    <string name="language_he">🇮🇱 עברית</string>
+    <string name="language_ar">🇸🇦 العربية</string>
+    
+    <!-- Accessibility descriptions for TalkBack -->
+    <string name="desc_app_logo">شعار تطبيق نظرة للعالم</string>
+    <string name="desc_stats_card">بطاقة تعرض إحصائيات نقاطك وتنبيهاتك</string>
+    <string name="desc_badges_card">بطاقة تعرض شاراتك المفتوحة</string>
+    <string name="desc_refresh_button">زر لتحديث الإحصائيات</string>
+    <string name="desc_language_button">زر لتغيير لغة التطبيق</string>
+    <string name="desc_accept_button">زر للقبول والمتابعة للتطبيق</string>
+    
+    <!-- Radar -->
+    <string name="radar_you">أنت</string>
+    <string name="radar_distance_2m">2م</string>
+    <string name="radar_distance_5m">5م</string>
+    <string name="radar_distance_10m">10م</string>
+    
+    <!-- Demo mode -->
+    <string name="mode_demo">وضع العرض</string>
+    <string name="stop_demo">إيقاف العرض</string>
+    <string name="camera_mode">وضع الكاميرا</string>
+    <string name="distance_label">المسافة: --</string>
+</resources>

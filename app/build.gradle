@@ -1,0 +1,116 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+// Charger les propriétés de signature depuis keystore.properties
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    compileSdk 34
+    namespace "com.example.prevcol"
+
+    defaultConfig {
+        applicationId "com.regardsaumonde.app"
+        minSdk 23
+        targetSdk 34
+        versionCode 3
+        versionName "1.1.0"
+        
+        // TESTS
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // Configuration de signature pour release
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/proguard/androidx-*.pro']
+        }
+        jniLibs {
+            // Extrait les libs natives sur le filesystem, contourne le problème
+            // d'alignement 16 KB pour les bibliothèques tierces non migrées
+            useLegacyPackaging = true
+        }
+    }
+
+    ndkVersion "25.2.9519653"
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.1.10"
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // Optional: coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+    // CameraX
+    implementation 'androidx.camera:camera-core:1.4.0'
+    implementation 'androidx.camera:camera-camera2:1.4.0'
+    implementation 'androidx.camera:camera-lifecycle:1.4.0'
+    implementation 'androidx.camera:camera-view:1.4.0'
+
+    // ML Kit Object Detection (on-device, privacy-friendly)
+    // 17.0.2+ : bibliothèques natives alignées 16 KB (requis Play Store depuis nov. 2025)
+    implementation 'com.google.mlkit:object-detection:17.0.2'
+
+    // CardView (pour MainActivity)
+    implementation 'androidx.cardview:cardview:1.0.0'
+    
+    // Google AdMob (publicités)
+    implementation 'com.google.android.gms:play-services-ads:23.0.0'
+    
+    // Guava (requis pour compatibilité CameraX + AdMob)
+    implementation 'com.google.guava:guava:31.1-android'
+    
+    // Tests
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:5.3.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

@@ -1,0 +1,89 @@
+╔══════════════════════════════════════════════════════════════╗
+║            SOLUTION IMMÉDIATE - WINDOWS                   ║
+║                   Compilation de PrevCol                   ║
+╚══════════════════════════════════════════════════════════════╝
+
+L'erreur ".\gradlew n'est pas reconnu" est un problème Windows classique.
+Voici la solution la PLUS SIMPLE:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ SOLUTION RAPIDE (15 MINUTES)
+
+1. Téléchargez Android Studio:
+   → https://developer.android.com/studio
+
+2. Ouvrez le projet:
+   → File > Open
+   → C:\Users\morgane\Desktop\prev_col
+   → OK
+
+3. Attendez que Gradle se charge
+   (regardez en bas: "Gradle sync running...")
+
+4. Une fois prêt, compilez:
+   → Build > Build Bundle(s) / APK(s) > Build APK(s)
+
+5. C'est fait! L'APK est généré
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📲 INSTALLER SUR UN TÉLÉPHONE
+
+Option  A: Avec Android Studio
+   → Connectez le téléphone en USB
+   → Cliquez le bouton ▶️ (Run)
+   → L'app s'installe et démarre
+
+Option B: Manuellement
+   → Transférez app-debug.apk sur le téléphone
+   → Ouvrez le fichier
+   → Android demande confirmation
+   → Installez
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎮 TESTAGE IMMÉDIAT
+
+Une fois installée, vous voyez:
+
+   [Mode Démo] [Mode Caméra]  ← Deux boutons
+
+Cliquez "Mode Démo":
+   → L'app simule la détection
+   → Vous voyez la distance changer
+   → Testez les vibrations (≤ 2m)
+   → Testez le son (≤ 1.5m)
+
+   ✓ AUCUNE CAMÉRA REQUISE
+   ✓ TEST 100% FONCTIONNEL
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❓ QUESTIONS?
+
+Si vous avez Java installé mais pas Android Studio:
+   → Voir: SOLUTION_WINDOWS.md (Option 2: Gradle Local)
+
+Si Android Studio vous demande une clé API:
+   → C'est normal, acceptez les options par défaut
+
+Si ça n'installe pas:
+   → Vérifiez USB Debug en Paramètres > À propos
+      (appuyez 7x sur "Numéro de build")
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ BONNE NOUVELLE:
+
+   ✓ Votre app est déjà PRÊTE
+   ✓ Aucune modification à faire
+   ✓ Android Studio gère tout automatiquement
+   ✓ Mode Démo fonctionne sans extras
+   ✓ Service background activé et prêt
+
+➜ Installez Android Studio et c'est fini!
+
+╔══════════════════════════════════════════════════════════════╗
+║  Questions: https://developer.android.com/studio/install   ║
+╚══════════════════════════════════════════════════════════════╝

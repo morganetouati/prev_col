@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">מבט לעולם</string>
+    
+    <!-- Main Activity -->
+    <string name="app_title">👁️ מבט לעולם</string>
+    <string name="app_subtitle">הסטטיסטיקות והתגים שלך</string>
+    <string name="quick_settings_hint">💡 הפעל מעקב מההגדרות המהירות (סמל 👁️)</string>
+    <string name="stats_title">📊 סטטיסטיקות</string>
+    <string name="points_label">🎯 נקודות: %1$d | %2$s</string>
+    <string name="alerts_label">⚠️ התראות שנמנעו: %d</string>
+    <string name="rapid_label">⚡ התקרבויות מהירות: %d</string>
+    <string name="streak_label">🔥 רצף: %d ימים</string>
+    <string name="next_level_label">➡️ %d נקודות לשלב הבא</string>
+    <string name="badges_title">🏆 תגים שנפתחו</string>
+    <string name="no_badges">אין תגים פתוחים</string>
+    <string name="refresh_button">🔄 רענן</string>
+    <string name="stats_refreshed">הסטטיסטיקות התרעננו!</string>
+    
+    <!-- Privacy Activity -->
+    <string name="privacy_title">מבט לעולם</string>
+    <string name="privacy_subtitle">שומר הראש הדיסקרטי שלך</string>
+    <string name="privacy_section_title">🔒 הפרטיות שלך מוגנת</string>
+    <string name="privacy_guarantees">✅  עיבוד 100%% בטלפון שלך\n✅  אין תמונות נשמרות או נשלחות\n✅  לא נדרש חשבון\n✅  לא נאספים נתונים אישיים\n✅  עובד ללא אינטרנט</string>
+    <string name="permissions_title">📋 הרשאות נדרשות</string>
+    <string name="permissions_list">📷  מצלמה: זיהוי אנשים/חיות (תמונות לא נשמרות)\n📡  כיסוי: הצגת רדאר HUD\n📳  רטט: התראות קרבה</string>
+    <string name="accept_button">הבנתי, המשך</string>
+    <string name="privacy_policy_link">מדיניות פרטיות</string>
+    
+    <!-- Accessibility Section -->
+    <string name="accessibility_title">♿ אפליקציה נגישה</string>
+    <string name="accessibility_text">✅ תואם TalkBack (קורא מסך)\n✅ התראות רטט לחירשים\n✅ התראות קוליות לעיוורים\n✅ צבעים מנוגדים לעיוורי צבעים</string>
+    
+    <!-- Notifications -->
+    <string name="service_channel_name">שירות מעקב</string>
+    <string name="service_channel_desc">התראה דיסקרטית המציינת מעקב פעיל</string>
+    <string name="alert_channel_name">התראות קרבה</string>
+    <string name="alert_channel_desc">התראות כשמישהו מתקרב מדי</string>
+    <string name="notification_title">👁️ מבט לעולם</string>
+    <string name="status_phone_idle">📋 טלפון מונח - המתנה</string>
+    <string name="status_camera_detection">👀 מצלמה פעילה - זיהוי!</string>
+    <string name="status_walking_detection">👀 בהליכה - זיהוי פעיל</string>
+    <string name="status_camera_clear">👁️ מצלמה פעילה - נקי</string>
+    <string name="status_walking_clear">🚶 בהליכה - נקי (אין סביב)</string>
+    <string name="stop_action">עצור</string>
+    <string name="alert_rapid">%1$s ⚡ התקרבות מהירה!</string>
+    <string name="alert_danger">%1$s 🔴 סכנה: %2$s קרוב מאוד!</string>
+    <string name="alert_warning">%1$s 🟠 התראה: %2$s מתקרב</string>
+    <string name="alert_message" formatted="false">%s (%.2fm) - מרחק: %.1f מ\'</string>
+    
+    <!-- Object Types -->
+    <string name="object_adult">מבוגר</string>
+    <string name="object_child">ילד</string>
+    <string name="object_baby">תינוק</string>
+    <string name="object_small_dog">כלב קטן</string>
+    <string name="object_medium_dog">כלב בינוני</string>
+    <string name="object_large_dog">כלב גדול</string>
+    
+    <!-- Badges -->
+    <string name="badge_first_alert">🥉 מבט ראשון — התראה ראשונה נמנעה</string>
+    <string name="badge_danger_zone">🥈 אזור סכנה — 20 התראות סכנה</string>
+    <string name="badge_centurion">🏅 קנטוריון — 100 התראות סכנה</string>
+    <string name="badge_guardian">🥇 שומר הרחוב — 100 נקודות</string>
+    <string name="badge_expert_500">💎 מומחה — 500 נקודות</string>
+    <string name="badge_always_aware">👁️ אדון הערנות — 1000 נקודות</string>
+    <string name="badge_speedster">⚡ ספידסטר — התקרבות מהירה ראשונה</string>
+    <string name="badge_speedster_10">🌩️ ברק — 10 התקרבויות מהירות</string>
+    <string name="badge_streak_5">🔥 בלהבות — 5 ימים רצופים</string>
+    <string name="badge_streak_30">💪 רצון ברזל — 30 ימים ברציפות</string>
+    <string name="badge_protecteur">👶 מגן — 10 ילדים/תינוקות זוהו</string>
+    <string name="badge_ami_betes">🐾 ידיד החיות — 10 חיות זוהו</string>
+    
+    <!-- Levels -->
+    <string name="level_1">🌱 מתחיל</string>
+    <string name="level_2">🚶 בינוני</string>
+    <string name="level_3">👁️ מאושר</string>
+    <string name="level_4">⚡ מומחה</string>
+    <string name="level_5">🏆 אדון</string>
+    
+    <!-- Permissions -->
+    <string name="permission_dialog_title">📡 הרשאות נדרשות</string>
+    <string name="permission_dialog_message">כדי להציג את רדאר HUD ולהשתמש בזיהוי מצלמה אמיתי, האפליקציה צריכה 2 הרשאות.\n\n👁️ כיסוי מסך: לרדאר\n📷 מצלמה: זיהוי אמיתי במכשיר (אין נתונים נשלחים)</string>
+    <string name="permission_overlay_button">אפשר כיסוי</string>
+    <string name="permission_later">מאוחר יותר</string>
+    <string name="camera_granted">📷 מצלמה אושרה - זיהוי אמיתי מופעל!</string>
+    <string name="camera_denied">⚠️ מצב סימולציה (ללא מצלמה)</string>
+    <string name="overlay_granted">רדאר HUD מופעל!</string>
+    
+    <!-- Language selector -->
+    <string name="language_button_desc">שנה שפה</string>
+    <string name="language_dialog_title">🌍 בחר שפה</string>
+    <string name="language_fr">🇫🇷 Français</string>
+    <string name="language_en">🇬🇧 English</string>
+    <string name="language_es">🇪🇸 Español</string>
+    <string name="language_de">🇩🇪 Deutsch</string>
+    <string name="language_it">🇮🇹 Italiano</string>
+    <string name="language_he">🇮🇱 עברית</string>
+    <string name="language_ar">🇸🇦 العربية</string>
+    
+    <!-- Accessibility descriptions for TalkBack -->
+    <string name="desc_app_logo">לוגו אפליקציית מבט לעולם</string>
+    <string name="desc_stats_card">כרטיס המציג את סטטיסטיקות הנקודות וההתראות שלך</string>
+    <string name="desc_badges_card">כרטיס המציג את התגים הפתוחים שלך</string>
+    <string name="desc_refresh_button">כפתור לרענון הסטטיסטיקות</string>
+    <string name="desc_language_button">כפתור לשינוי שפת האפליקציה</string>
+    <string name="desc_accept_button">כפתור לאישור והמשך לאפליקציה</string>
+    
+    <!-- Radar -->
+    <string name="radar_you">אתה</string>
+    <string name="radar_distance_2m">2מ\'</string>
+    <string name="radar_distance_5m">5מ\'</string>
+    <string name="radar_distance_10m">10מ\'</string>
+    
+    <!-- Demo mode -->
+    <string name="mode_demo">מצב דמו</string>
+    <string name="stop_demo">עצור דמו</string>
+    <string name="camera_mode">מצב מצלמה</string>
+    <string name="distance_label">מרחק: --</string>
+</resources>

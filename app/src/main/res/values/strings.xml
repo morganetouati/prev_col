@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">Regards au monde</string>
+    
+    <!-- Main Activity -->
+    <string name="app_title">👁️ Regards au monde</string>
+    <string name="app_subtitle">Vos statistiques et badges</string>
+    <string name="quick_settings_hint">💡 Activez la surveillance depuis les Réglages rapides (icône 👁️)</string>
+    <string name="stats_title">📊 Statistiques</string>
+    <string name="points_label">🎯 Points: %1$d | %2$s</string>
+    <string name="alerts_label">⚠️ Alertes évitées: %d</string>
+    <string name="rapid_label">⚡ Approches rapides: %d</string>
+    <string name="streak_label">🔥 Série: %d jours</string>
+    <string name="next_level_label">➡️ %d points avant niveau suivant</string>
+    <string name="badges_title">🏆 Badges débloqués</string>
+    <string name="no_badges">Aucun badge débloqué</string>
+    <string name="refresh_button">🔄 Actualiser</string>
+    <string name="stats_refreshed">Statistiques actualisées !</string>
+    
+    <!-- Privacy Activity -->
+    <string name="privacy_title">Regards au monde</string>
+    <string name="privacy_subtitle">Votre garde du corps discret</string>
+    <string name="privacy_section_title">🔒 Votre vie privée protégée</string>
+    <string name="privacy_guarantees">✅  Traitement 100%% sur votre téléphone\n✅  Aucune image stockée ou transmise\n✅  Aucun compte requis\n✅  Aucune donnée personnelle collectée\n✅  Fonctionne sans internet</string>
+    <string name="permissions_title">📋 Permissions demandées</string>
+    <string name="permissions_list">📷  Caméra : détecter les personnes/animaux (images jamais sauvegardées)\n📡  Superposition : afficher le radar HUD\n📳  Vibration : alertes de proximité</string>
+    <string name="accept_button">Comprendre et continuer</string>
+    <string name="privacy_policy_link">Politique de confidentialité</string>
+    
+    <!-- Accessibility Section -->
+    <string name="accessibility_title">♿ Application accessible</string>
+    <string name="accessibility_text">✅ Compatible TalkBack (lecteur d\'écran)\n✅ Alertes vibratoires pour sourds\n✅ Alertes sonores pour aveugles\n✅ Couleurs contrastées pour daltoniens</string>
+    
+    <!-- Notifications -->
+    <string name="service_channel_name">Service de surveillance</string>
+    <string name="service_channel_desc">Notification discrète pour indiquer que la surveillance est active</string>
+    <string name="alert_channel_name">Alertes de proximité</string>
+    <string name="alert_channel_desc">Alertes quand quelqu\'un s\'approche trop près</string>
+    <string name="notification_title">👁️ Regards au monde</string>
+    <string name="status_phone_idle">📋 Téléphone posé - En veille</string>
+    <string name="status_camera_detection">👀 Caméra active - Détection!</string>
+    <string name="status_walking_detection">👀 En marche - Détection active</string>
+    <string name="status_camera_clear">👁️ Caméra active - RAS</string>
+    <string name="status_walking_clear">🚶 En marche - RAS (rien autour)</string>
+    <string name="stop_action">Arrêter</string>
+    <string name="alert_rapid">%1$s ⚡ APPROCHE RAPIDE!</string>
+    <string name="alert_danger">%1$s 🔴 DANGER: %2$s très proche!</string>
+    <string name="alert_warning">%1$s 🟠 ALERTE: %2$s s\'approche</string>
+    <string name="alert_message" formatted="false">%s (%.2fm) - Distance: %.1f m</string>
+    
+    <!-- Object Types -->
+    <string name="object_adult">Adulte</string>
+    <string name="object_child">Enfant</string>
+    <string name="object_baby">Bébé</string>
+    <string name="object_small_dog">Petit chien</string>
+    <string name="object_medium_dog">Chien moyen</string>
+    <string name="object_large_dog">Grand chien</string>
+    
+    <!-- Badges -->
+    <string name="badge_first_alert">🥉 Premier Regard — 1ère alerte évitée</string>
+    <string name="badge_danger_zone">🥈 Zone Dangereuse — 20 alertes danger</string>
+    <string name="badge_centurion">🏅 Centurion — 100 alertes danger</string>
+    <string name="badge_guardian">🥇 Gardien de la Rue — 100 points</string>
+    <string name="badge_expert_500">💎 Expert — 500 points</string>
+    <string name="badge_always_aware">👁️ Maître Vigilant — 1000 points</string>
+    <string name="badge_speedster">⚡ Speedster — 1ère approche rapide</string>
+    <string name="badge_speedster_10">🌩️ Éclair — 10 approches rapides</string>
+    <string name="badge_streak_5">🔥 En feu — 5 jours consécutifs</string>
+    <string name="badge_streak_30">💪 Iron Will — 30 jours de suite</string>
+    <string name="badge_protecteur">👶 Protecteur — 10 enfants/bébés détectés</string>
+    <string name="badge_ami_betes">🐾 Ami des bêtes — 10 animaux détectés</string>
+    
+    <!-- Levels -->
+    <string name="level_1">🌱 Débutant</string>
+    <string name="level_2">🚶 Intermédiaire</string>
+    <string name="level_3">👁️ Confirmé</string>
+    <string name="level_4">⚡ Expert</string>
+    <string name="level_5">🏆 Maître</string>
+    
+    <!-- Permissions -->
+    <string name="permission_dialog_title">🎯 Radar HUD (optionnel)</string>
+    <string name="permission_dialog_message">Voulez-vous activer le radar visuel ?\n\n👁️ Superposition d\'écran : affiche un radar sur votre écran\n\n⚠️ Cette permission est OPTIONNELLE.\nL\'app fonctionne aussi sans (alertes vibration/son uniquement).</string>
+    <string name="permission_overlay_button">Activer le radar</string>
+    <string name="permission_later">Non merci</string>
+    <string name="overlay_optional_message">OK ! L\'app fonctionne avec les alertes vibration et son uniquement.</string>
+    <string name="camera_granted">📷 Caméra autorisée - Détection réelle activée !</string>
+    <string name="camera_denied">⚠️ Mode simulation (sans caméra)</string>
+    <string name="overlay_granted">Radar HUD activé !</string>
+    
+    <!-- Language selector -->
+    <string name="language_button_desc">Changer la langue</string>
+    <string name="language_dialog_title">🌍 Choisir la langue</string>
+    <string name="language_fr">🇫🇷 Français</string>
+    <string name="language_en">🇬🇧 English</string>
+    <string name="language_es">🇪🇸 Español</string>
+    <string name="language_de">🇩🇪 Deutsch</string>
+    <string name="language_it">🇮🇹 Italiano</string>
+    <string name="language_he">🇮🇱 עברית</string>
+    <string name="language_ar">🇸🇦 العربية</string>
+    
+    <!-- Accessibility descriptions for TalkBack -->
+    <string name="desc_app_logo">Logo de l\'application Regards au monde</string>
+    <string name="desc_stats_card">Carte affichant vos statistiques de points et alertes</string>
+    <string name="desc_badges_card">Carte affichant vos badges débloqués</string>
+    <string name="desc_refresh_button">Bouton pour actualiser les statistiques</string>
+    <string name="desc_language_button">Bouton pour changer la langue de l\'application</string>
+    <string name="desc_accept_button">Bouton pour accepter et continuer vers l\'application</string>
+    
+    <!-- Radar -->
+    <string name="radar_you">VOUS</string>
+    <string name="radar_distance_2m">2m</string>
+    <string name="radar_distance_5m">5m</string>
+    <string name="radar_distance_10m">10m</string>
+    
+    <!-- Demo mode (legacy) -->
+    <string name="mode_demo">Mode Démo</string>
+    <string name="stop_demo">Arrêter Démo</string>
+    <string name="camera_mode">Mode Caméra</string>
+    <string name="distance_label">Distance: --</string>
+    
+    <!-- AdMob IDs (TEST IDs - remplacer par vos vrais IDs en production) -->
+    <!-- Pour production: créer un compte sur https://admob.google.com -->
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+</resources>

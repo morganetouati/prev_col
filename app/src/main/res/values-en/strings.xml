@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">World Watch</string>
+    
+    <!-- Main Activity -->
+    <string name="app_title">👁️ World Watch</string>
+    <string name="app_subtitle">Your stats and badges</string>
+    <string name="quick_settings_hint">💡 Enable surveillance from Quick Settings (👁️ icon)</string>
+    <string name="stats_title">📊 Statistics</string>
+    <string name="points_label">🎯 Points: %1$d | %2$s</string>
+    <string name="alerts_label">⚠️ Alerts avoided: %d</string>
+    <string name="rapid_label">⚡ Rapid approaches: %d</string>
+    <string name="streak_label">🔥 Streak: %d days</string>
+    <string name="next_level_label">➡️ %d points to next level</string>
+    <string name="badges_title">🏆 Unlocked badges</string>
+    <string name="no_badges">No badges unlocked yet</string>
+    <string name="refresh_button">🔄 Refresh</string>
+    <string name="stats_refreshed">Stats refreshed!</string>
+    
+    <!-- Privacy Activity -->
+    <string name="privacy_title">World Watch</string>
+    <string name="privacy_subtitle">Your discreet bodyguard</string>
+    <string name="privacy_section_title">🔒 Your privacy protected</string>
+    <string name="privacy_guarantees">✅  100%% on-device processing\n✅  No images stored or transmitted\n✅  No account required\n✅  No personal data collected\n✅  Works offline</string>
+    <string name="permissions_title">📋 Requested permissions</string>
+    <string name="permissions_list">📷  Camera: detect people/animals (images never saved)\n📡  Overlay: display radar HUD\n📳  Vibration: proximity alerts</string>
+    <string name="accept_button">Understand and continue</string>
+    <string name="privacy_policy_link">Privacy Policy</string>
+    
+    <!-- Accessibility Section -->
+    <string name="accessibility_title">♿ Accessible app</string>
+    <string name="accessibility_text">✅ TalkBack compatible (screen reader)\n✅ Vibrating alerts for deaf users\n✅ Sound alerts for blind users\n✅ High contrast for colorblind</string>
+    
+    <!-- Notifications -->
+    <string name="service_channel_name">Surveillance service</string>
+    <string name="service_channel_desc">Discreet notification indicating active surveillance</string>
+    <string name="alert_channel_name">Proximity alerts</string>
+    <string name="alert_channel_desc">Alerts when someone gets too close</string>
+    <string name="notification_title">👁️ World Watch</string>
+    <string name="status_phone_idle">📋 Phone down - Standby</string>
+    <string name="status_camera_detection">👀 Camera active - Detection!</string>
+    <string name="status_walking_detection">👀 Walking - Active detection</string>
+    <string name="status_camera_clear">👁️ Camera active - All clear</string>
+    <string name="status_walking_clear">🚶 Walking - Clear (nothing around)</string>
+    <string name="stop_action">Stop</string>
+    <string name="alert_rapid">%1$s ⚡ RAPID APPROACH!</string>
+    <string name="alert_danger">%1$s 🔴 DANGER: %2$s very close!</string>
+    <string name="alert_warning">%1$s 🟠 ALERT: %2$s approaching</string>
+    <string name="alert_message" formatted="false">%s (%.2fm) - Distance: %.1f m</string>
+    
+    <!-- Object Types -->
+    <string name="object_adult">Adult</string>
+    <string name="object_child">Child</string>
+    <string name="object_baby">Baby</string>
+    <string name="object_small_dog">Small dog</string>
+    <string name="object_medium_dog">Medium dog</string>
+    <string name="object_large_dog">Large dog</string>
+    
+    <!-- Badges -->
+    <string name="badge_first_alert">🥉 First Glance — 1st alert avoided</string>
+    <string name="badge_danger_zone">🥈 Danger Zone — 20 danger alerts</string>
+    <string name="badge_centurion">🏅 Centurion — 100 danger alerts</string>
+    <string name="badge_guardian">🥇 Street Guardian — 100 points</string>
+    <string name="badge_expert_500">💎 Expert — 500 points</string>
+    <string name="badge_always_aware">👁️ Vigilant Master — 1000 points</string>
+    <string name="badge_speedster">⚡ Speedster — 1st rapid approach</string>
+    <string name="badge_speedster_10">🌩️ Lightning — 10 rapid approaches</string>
+    <string name="badge_streak_5">🔥 On Fire — 5 consecutive days</string>
+    <string name="badge_streak_30">💪 Iron Will — 30 days straight</string>
+    <string name="badge_protecteur">👶 Protector — 10 children/babies detected</string>
+    <string name="badge_ami_betes">🐾 Animal Friend — 10 animals detected</string>
+    
+    <!-- Levels -->
+    <string name="level_1">🌱 Beginner</string>
+    <string name="level_2">🚶 Intermediate</string>
+    <string name="level_3">👁️ Confirmed</string>
+    <string name="level_4">⚡ Expert</string>
+    <string name="level_5">🏆 Master</string>
+    
+    <!-- Permissions -->
+    <string name="permission_dialog_title">📡 Required permissions</string>
+    <string name="permission_dialog_message">To display radar HUD and use real camera detection, the app needs 2 permissions.\n\n👁️ Screen overlay: for radar\n📷 Camera: real on-device detection (no data transmitted)</string>
+    <string name="permission_overlay_button">Allow overlay</string>
+    <string name="permission_later">Later</string>
+    <string name="camera_granted">📷 Camera allowed - Real detection enabled!</string>
+    <string name="camera_denied">⚠️ Simulation mode (no camera)</string>
+    <string name="overlay_granted">Radar HUD enabled!</string>
+    
+    <!-- Language selector -->
+    <string name="language_button_desc">Change language</string>
+    <string name="language_dialog_title">🌍 Choose language</string>
+    <string name="language_fr">🇫🇷 Français</string>
+    <string name="language_en">🇬🇧 English</string>
+    <string name="language_es">🇪🇸 Español</string>
+    <string name="language_de">🇩🇪 Deutsch</string>
+    <string name="language_it">🇮🇹 Italiano</string>
+    <string name="language_he">🇮🇱 עברית</string>
+    <string name="language_ar">🇸🇦 العربية</string>
+    
+    <!-- Accessibility descriptions for TalkBack -->
+    <string name="desc_app_logo">World Watch app logo</string>
+    <string name="desc_stats_card">Card displaying your points and alerts stats</string>
+    <string name="desc_badges_card">Card displaying your unlocked badges</string>
+    <string name="desc_refresh_button">Button to refresh statistics</string>
+    <string name="desc_language_button">Button to change app language</string>
+    <string name="desc_accept_button">Button to accept and continue to the app</string>
+    
+    <!-- Radar -->
+    <string name="radar_you">YOU</string>
+    <string name="radar_distance_2m">2m</string>
+    <string name="radar_distance_5m">5m</string>
+    <string name="radar_distance_10m">10m</string>
+    
+    <!-- Demo mode -->
+    <string name="mode_demo">Demo Mode</string>
+    <string name="stop_demo">Stop Demo</string>
+    <string name="camera_mode">Camera Mode</string>
+    <string name="distance_label">Distance: --</string>
+</resources>

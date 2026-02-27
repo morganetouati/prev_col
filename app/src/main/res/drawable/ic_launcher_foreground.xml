@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Œil extérieur - forme d'amande cyan -->
+    <path
+        android:fillColor="#00F5D4"
+        android:pathData="M54,34 C30,34 18,54 18,54 C18,54 30,74 54,74 C78,74 90,54 90,54 C90,54 78,34 54,34 Z" />
+    
+    <!-- Cercle iris violet -->
+    <path
+        android:fillColor="#8B5CF6"
+        android:pathData="M54,42 C47.4,42 42,47.4 42,54 C42,60.6 47.4,66 54,66 C60.6,66 66,60.6 66,54 C66,47.4 60.6,42 54,42 Z" />
+    
+    <!-- Pupille cyan foncé -->
+    <path
+        android:fillColor="#1A1B2E"
+        android:pathData="M54,48 C50.7,48 48,50.7 48,54 C48,57.3 50.7,60 54,60 C57.3,60 60,57.3 60,54 C60,50.7 57.3,48 54,48 Z" />
+    
+    <!-- Reflet de lumière -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M57,51 C55.9,51 55,51.9 55,53 C55,54.1 55.9,55 57,55 C58.1,55 59,54.1 59,53 C59,51.9 58.1,51 57,51 Z" />
+
+</vector>

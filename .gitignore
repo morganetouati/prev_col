@@ -1,0 +1,31 @@
+# ===========================================
+# Regards au monde - .gitignore
+# ===========================================
+
+# Gradle
+.gradle/
+build/
+**/build/
+
+# IDE
+.idea/
+*.iml
+local.properties
+
+# Keystore et secrets (NE JAMAIS COMMITTER)
+keystore/
+*.keystore
+*.jks
+keystore.properties
+*.hprof
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# APK/AAB générés
+*.apk
+*.aab
