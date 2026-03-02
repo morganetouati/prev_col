@@ -10,6 +10,12 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+def defaultAdmobAppId = "ca-app-pub-3940256099942544~3347511713"
+def defaultAdmobBannerId = "ca-app-pub-3940256099942544/6300978111"
+def admobAppId = providers.gradleProperty("ADMOB_APP_ID").orElse(defaultAdmobAppId).get()
+def admobBannerId = providers.gradleProperty("ADMOB_BANNER_ID").orElse(defaultAdmobBannerId).get()
+def usingTestAdmobIds = admobAppId.contains("3940256099942544") || admobBannerId.contains("3940256099942544")
+
 android {
     compileSdk 34
     namespace "com.example.prevcol"
@@ -20,6 +26,12 @@ android {
         targetSdk 34
         versionCode 3
         versionName "1.1.0"
+
+        resValue "string", "admob_app_id", "\"${admobAppId}\""
+        resValue "string", "admob_banner_id", "\"${admobBannerId}\""
+        buildConfigField "String", "ADMOB_APP_ID", "\"${admobAppId}\""
+        buildConfigField "String", "ADMOB_BANNER_ID", "\"${admobBannerId}\""
+        buildConfigField "boolean", "ADMOB_IS_TEST_IDS", "${usingTestAdmobIds}"
         
         // TESTS
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -61,8 +73,18 @@ android {
         jvmTarget = '11'
     }
 
+    buildFeatures {
+        buildConfig true
+    }
+
     testOptions {
         unitTests.returnDefaultValues = true
+    }
+
+    lint {
+        abortOnError true
+        checkReleaseBuilds true
+        warningsAsErrors true
     }
 
     packagingOptions {
@@ -77,6 +99,21 @@ android {
     }
 
     ndkVersion "25.2.9519653"
+}
+
+tasks.register("verifyPlayReleaseConfig") {
+    group = "verification"
+    description = "Vérifie la configuration minimale avant release Play Store"
+
+    doLast {
+        if (!keystorePropertiesFile.exists()) {
+            throw new GradleException("keystore.properties manquant: signature release impossible")
+        }
+
+        if (usingTestAdmobIds) {
+            throw new GradleException("IDs AdMob de test détectés. Définissez ADMOB_APP_ID et ADMOB_BANNER_ID dans gradle.properties (ou variables Gradle)")
+        }
+    }
 }
 
 dependencies {
@@ -104,6 +141,7 @@ dependencies {
     
     // Google AdMob (publicités)
     implementation 'com.google.android.gms:play-services-ads:23.0.0'
+    implementation 'com.google.android.ump:user-messaging-platform:2.2.0'
     
     // Guava (requis pour compatibilité CameraX + AdMob)
     implementation 'com.google.guava:guava:31.1-android'

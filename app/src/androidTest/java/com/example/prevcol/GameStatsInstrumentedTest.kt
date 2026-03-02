@@ -127,6 +127,6 @@ class GameStatsInstrumentedTest {
     @Test
     fun packageNameIsCorrect() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.prevcol", context.packageName)
+        assertEquals("com.regardsaumonde.app", context.packageName)
     }
 }

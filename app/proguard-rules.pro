@@ -25,7 +25,6 @@
 # ── CameraX ────────────────────────────────────────────────────────────────────
 -keep class androidx.camera.** { *; }
 -keep interface androidx.camera.** { *; }
--keep class androidx.lifecycle.** { *; }
 -dontwarn androidx.camera.**
 
 # ── Google AdMob ───────────────────────────────────────────────────────────────

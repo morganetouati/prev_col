@@ -84,11 +84,13 @@
 
 ## 🔒 Confidentialité
 
-**Aucune donnée personnelle n'est collectée ni transmise.**
+**Aucune image caméra n'est collectée ni transmise par l'app.**
 
 - ✅ Traitement ML Kit 100% on-device
 - ✅ Pas de compte utilisateur requis
-- ✅ Pas d'analytics ni tracking
+- ✅ Pas d'analytics propriétaire côté application
+- ℹ️ SDK publicitaire AdMob actif (consultez la section Data Safety Play Console)
+- ✅ Consentement pub géré via UMP (RGPD/EEA) avant chargement des annonces
 - ✅ Statistiques stockées uniquement en local (SharedPreferences)
 - ✅ Caméra utilisée uniquement pour la détection en temps réel
 
@@ -136,6 +138,17 @@ cd prev_col
 .\gradlew.bat assembleRelease
 # APK → app\build\outputs\apk\release\app-release.apk
 ```
+
+### Build Bundle Play Store (AAB)
+```powershell
+.\gradlew.bat :app:verifyPlayReleaseConfig
+.\gradlew.bat :app:bundleRelease
+# AAB → app\build\outputs\bundle\release\app-release.aab
+```
+
+### Configuration AdMob (obligatoire pour release)
+- Définissez `ADMOB_APP_ID` et `ADMOB_BANNER_ID` dans `gradle.properties`
+- Les IDs de test Google (`ca-app-pub-3940256099942544/...`) bloquent désormais la release stricte
 
 ### Tests
 ```powershell

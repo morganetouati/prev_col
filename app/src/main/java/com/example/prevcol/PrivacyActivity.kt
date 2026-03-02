@@ -45,7 +45,7 @@ class PrivacyActivity : AppCompatActivity() {
         // Lien vers politique de confidentialité
         findViewById<TextView>(R.id.policyLink).setOnClickListener {
             val intent = Intent(android.content.Intent.ACTION_VIEW,
-                android.net.Uri.parse("https://regardsaumonde.app/privacy"))
+                android.net.Uri.parse("https://morganetouati.github.io/prev_col/privacy/"))
             startActivity(intent)
         }
     }

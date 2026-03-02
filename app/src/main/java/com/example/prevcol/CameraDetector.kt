@@ -6,7 +6,6 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.google.mlkit.common.model.LocalModel
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
@@ -43,6 +42,13 @@ class CameraDetector(
     fun start(lifecycleOwner: LifecycleOwner) {
         if (isRunning) return
         isRunning = true
+        lastProcessTime = 0L
+
+        if (cameraExecutor.isShutdown || cameraExecutor.isTerminated) {
+            cameraExecutor = Executors.newSingleThreadExecutor()
+        }
+
+        objectDetector?.close()
 
         // Configure ML Kit Object Detector (mode stream pour temps réel)
         val options = ObjectDetectorOptions.Builder()
@@ -214,6 +220,9 @@ class CameraDetector(
         isRunning = false
         cameraProvider?.unbindAll()
         objectDetector?.close()
-        cameraExecutor.shutdown()
+        objectDetector = null
+        if (!cameraExecutor.isShutdown) {
+            cameraExecutor.shutdownNow()
+        }
     }
 }

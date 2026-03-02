@@ -21,7 +21,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
@@ -44,6 +43,8 @@ class DetectionService : Service(), SensorEventListener {
     private var lastCameraResult: CameraDetector.CameraDetectionResult? = null
     private var lastCameraResultTime = 0L
     private val cameraResultTimeoutMs = 2000L  // Si pas de résultat caméra depuis 2s → no detection
+    private val activePollIntervalMs = 180L
+    private val idlePollIntervalMs = 500L
     
     // Détecteur de mouvement
     private lateinit var sensorManager: SensorManager
@@ -70,6 +71,12 @@ class DetectionService : Service(), SensorEventListener {
     private val ALERT_CHANNEL_ID = "alert_channel"
     
     private var isAlertShowing = false
+    private var lastServiceNotificationTime = 0L
+    private var lastServiceNotificationKey = ""
+    private val serviceNotificationMinIntervalMs = 1500L
+    private var lastAlertNotificationTime = 0L
+    private var lastAlertNotificationKey = ""
+    private val alertNotificationMinIntervalMs = 700L
 
     override fun onCreate() {
         super.onCreate()
@@ -137,10 +144,15 @@ class DetectionService : Service(), SensorEventListener {
     private fun startDetection() {
         if (isRunning) return
         isRunning = true
+
+        if (lifecycleRegistry.currentState == Lifecycle.State.DESTROYED) {
+            lifecycleRegistry = LifecycleRegistry(serviceLifecycleOwner)
+            lifecycleRegistry.currentState = Lifecycle.State.CREATED
+        }
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
         
         // Démarre avec la notification de service permanente
-        updateServiceNotification()
+        maybeUpdateServiceNotification(force = true)
         
         // Active le détecteur de mouvement et proximité
         accelerometer?.let {
@@ -163,7 +175,7 @@ class DetectionService : Service(), SensorEventListener {
         isRunning = false
         handler.removeCallbacks(detectionPoll)
         radarOverlay.hide()
-        lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
         
         // Arrête la caméra
         cameraDetector?.stop()
@@ -174,18 +186,37 @@ class DetectionService : Service(), SensorEventListener {
         // Annule les deux notifications
         val notificationManager = NotificationManagerCompat.from(this)
         notificationManager.cancel(ALERT_NOTIFICATION_ID)
+        isAlertShowing = false
+        lastAlertNotificationKey = ""
         
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
 
+    private fun maybeUpdateServiceNotification(
+        usingCamera: Boolean = false,
+        hasDetection: Boolean = false,
+        force: Boolean = false
+    ) {
+        val now = SystemClock.elapsedRealtime()
+        val stateKey = "$usingCamera|$hasDetection|$isWalking"
+        if (force || stateKey != lastServiceNotificationKey || now - lastServiceNotificationTime >= serviceNotificationMinIntervalMs) {
+            updateServiceNotification(usingCamera, hasDetection)
+            lastServiceNotificationKey = stateKey
+            lastServiceNotificationTime = now
+        }
+    }
+
     private val detectionPoll = object : Runnable {
         override fun run() {
             if (isRunning) {
+                val nextDelayMs = if (isWalking) activePollIntervalMs else idlePollIntervalMs
+
                 // Si téléphone dans la poche, mettre en veille
                 if (isInPocket) {
                     radarOverlay.hide()
-                    handler.postDelayed(this, 500L)
+                    maybeUpdateServiceNotification(useCameraDetection, hasDetection = false)
+                    handler.postDelayed(this, idlePollIntervalMs)
                     return
                 }
                 
@@ -207,13 +238,22 @@ class DetectionService : Service(), SensorEventListener {
                     val camResult = lastCameraResult
                     val camFresh = (now - lastCameraResultTime) < cameraResultTimeoutMs
                     if (camResult != null && camFresh) {
-                        distance = cameraDetector!!.estimateDistance(camResult)
+                        val detector = cameraDetector
+                        if (detector != null) {
+                            distance = detector.estimateDistance(camResult)
+                            angle = detector.estimateAngle(camResult.centerX)
+                            hasDetection = true
+                            direction = DemoDetectionSimulator.getMovementDirection()
+                            isRapidApproach = distance < 1.0f && camResult.confidence > 0.7f
+                        } else {
+                            distance = null
+                            hasDetection = false
+                            angle = 0f
+                            direction = DemoDetectionSimulator.MovementDirection.STATIONARY
+                            isRapidApproach = false
+                        }
                         objectType = camResult.objectType
                         height = objectType.heightRange.first
-                        angle = cameraDetector!!.estimateAngle(camResult.centerX)
-                        hasDetection = true
-                        direction = DemoDetectionSimulator.getMovementDirection()
-                        isRapidApproach = distance < 1.0f && camResult.confidence > 0.7f
                     } else {
                         distance = null
                         objectType = ObjectType.ADULTE
@@ -235,7 +275,7 @@ class DetectionService : Service(), SensorEventListener {
                     isRapidApproach = DemoDetectionSimulator.isRapidApproach
                 }
                 
-                updateServiceNotification(useCameraDetection, hasDetection)
+                maybeUpdateServiceNotification(useCameraDetection, hasDetection)
                 
                 if (distance == null || !hasDetection) {
                     radarOverlay.hide()
@@ -256,7 +296,7 @@ class DetectionService : Service(), SensorEventListener {
                     handleAlerts(distance, isRapidApproach)
                 }
                 
-                handler.postDelayed(this, 50)
+                handler.postDelayed(this, nextDelayMs)
             }
         }
     }
@@ -291,12 +331,14 @@ class DetectionService : Service(), SensorEventListener {
     
     private fun updateAlertNotification(distanceM: Float, isRapidApproach: Boolean) {
         val notificationManager = NotificationManagerCompat.from(this)
+        val now = SystemClock.elapsedRealtime()
         
         // Si le téléphone n'est pas en marche, annule toutes les alertes
         if (!isWalking) {
             if (isAlertShowing) {
                 notificationManager.cancel(ALERT_NOTIFICATION_ID)
                 isAlertShowing = false
+                lastAlertNotificationKey = ""
             }
             return
         }
@@ -317,6 +359,7 @@ class DetectionService : Service(), SensorEventListener {
             if (isAlertShowing) {
                 notificationManager.cancel(ALERT_NOTIFICATION_ID)
                 isAlertShowing = false
+                lastAlertNotificationKey = ""
             }
             return
         }
@@ -341,6 +384,8 @@ class DetectionService : Service(), SensorEventListener {
             else -> "$objectIcon Attention"
         }
         val message = String.format("%s (%.2fm) - Distance: %.1f m", objectType.label, objectHeight, distanceM)
+        val distanceBucket = (distanceM * 10f).toInt() / 2
+        val alertKey = "$isRapidApproach|${objectType.name}|$distanceBucket"
         
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
@@ -358,8 +403,12 @@ class DetectionService : Service(), SensorEventListener {
             .setColor(ContextCompat.getColor(this, colorResId))
             .setFullScreenIntent(pendingIntent, distanceM < dangerThreshold)  // HeadsUp si danger
             .build()
-        
-        notificationManager.notify(ALERT_NOTIFICATION_ID, alertNotification)
+
+        if (alertKey != lastAlertNotificationKey || now - lastAlertNotificationTime >= alertNotificationMinIntervalMs) {
+            notificationManager.notify(ALERT_NOTIFICATION_ID, alertNotification)
+            lastAlertNotificationKey = alertKey
+            lastAlertNotificationTime = now
+        }
     }
 
     private fun handleAlerts(distanceM: Float, isRapidApproach: Boolean) {

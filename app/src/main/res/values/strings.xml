@@ -17,6 +17,29 @@
     <string name="no_badges">Aucun badge débloqué</string>
     <string name="refresh_button">🔄 Actualiser</string>
     <string name="stats_refreshed">Statistiques actualisées !</string>
+    <string name="privacy_options_button">🔐 Paramètres de confidentialité pub</string>
+    <string name="privacy_options_updated">Préférences de confidentialité mises à jour</string>
+    <string name="privacy_options_unavailable">Options de confidentialité indisponibles pour le moment</string>
+    <string name="app_description_button">ℹ️ Fiche de l’application</string>
+    <string name="app_description_title">Fiche descriptive - Regards au monde</string>
+    <string name="app_description_content">Regards au monde est une application d’assistance piétonne.
+
+Objectif:
+• Réduire les risques de collision quand l’utilisateur marche avec son smartphone.
+
+Fonctionnement:
+• Détection en temps réel via caméra (ou mode simulation).
+• Alertes multimodales: vibration, son et notification.
+• Radar HUD optionnel via superposition.
+
+Confidentialité:
+• Traitement local sur l’appareil.
+• Aucune image sauvegardée.
+• Paramètres pub et consentement modifiables à tout moment.
+
+Public visé:
+• Piétons distraits, utilisateurs en mobilité urbaine, besoins d’alerte rapide.</string>
+    <string name="app_description_open_privacy">Voir politique de confidentialité</string>
     
     <!-- Privacy Activity -->
     <string name="privacy_title">Regards au monde</string>
@@ -106,6 +129,8 @@
     <string name="desc_refresh_button">Bouton pour actualiser les statistiques</string>
     <string name="desc_language_button">Bouton pour changer la langue de l\'application</string>
     <string name="desc_accept_button">Bouton pour accepter et continuer vers l\'application</string>
+    <string name="desc_privacy_options_button">Bouton pour modifier les préférences de confidentialité publicitaire</string>
+    <string name="desc_app_description_button">Bouton pour afficher la fiche descriptive de l’application</string>
     
     <!-- Radar -->
     <string name="radar_you">VOUS</string>
@@ -119,8 +144,5 @@
     <string name="camera_mode">Mode Caméra</string>
     <string name="distance_label">Distance: --</string>
     
-    <!-- AdMob IDs (TEST IDs - remplacer par vos vrais IDs en production) -->
-    <!-- Pour production: créer un compte sur https://admob.google.com -->
-    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+    <!-- AdMob IDs injectés depuis Gradle (ADMOB_APP_ID / ADMOB_BANNER_ID) -->
 </resources>

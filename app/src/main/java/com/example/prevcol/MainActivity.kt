@@ -61,9 +61,14 @@ class MainActivity : AppCompatActivity() {
         }
         
         // Initialise AdMob et charge la bannière
-        AdManager.initialize(this)
         adView = findViewById(R.id.adView)
-        AdManager.loadBanner(adView)
+        AdManager.initialize(this) { canRequestAds ->
+            if (canRequestAds) {
+                AdManager.loadBanner(adView)
+            } else {
+                adView.visibility = android.view.View.GONE
+            }
+        }
 
         // Actualise l'affichage au démarrage
         updateStatsDisplay()
@@ -79,6 +84,36 @@ class MainActivity : AppCompatActivity() {
             updateStatsDisplay()
             Toast.makeText(this, getString(R.string.stats_refreshed), Toast.LENGTH_SHORT).show()
         }
+
+        findViewById<Button>(R.id.privacyOptionsButton).setOnClickListener {
+            AdManager.showPrivacyOptions(this) { updated ->
+                if (updated) {
+                    AdManager.loadBanner(adView)
+                    Toast.makeText(this, getString(R.string.privacy_options_updated), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, getString(R.string.privacy_options_unavailable), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        findViewById<Button>(R.id.appDescriptionButton).setOnClickListener {
+            showAppDescriptionSheet()
+        }
+    }
+
+    private fun showAppDescriptionSheet() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.app_description_title))
+            .setMessage(getString(R.string.app_description_content))
+            .setPositiveButton(android.R.string.ok, null)
+            .setNeutralButton(getString(R.string.app_description_open_privacy)) { _, _ ->
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://morganetouati.github.io/prev_col/privacy/")
+                )
+                startActivity(intent)
+            }
+            .show()
     }
     
     private fun setupLanguageButton() {

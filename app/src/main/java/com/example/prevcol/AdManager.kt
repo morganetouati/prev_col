@@ -1,12 +1,20 @@
 package com.example.prevcol
 
+import android.app.Activity
+import android.os.Bundle
 import android.content.Context
 import android.util.Log
+import android.view.View
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.LoadAdError
+import com.google.ads.mediation.admob.AdMobAdapter
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.ConsentRequestParameters
+import com.google.android.ump.FormError
+import com.google.android.ump.UserMessagingPlatform
 
 /**
  * Gestionnaire de publicités AdMob
@@ -24,15 +32,58 @@ object AdManager {
     private const val TAG = "AdManager"
     private var isInitialized = false
     
+    private var canRequestAds = false
+
     /**
-     * Initialise le SDK AdMob (à appeler une seule fois au démarrage)
+     * Initialise consentement + SDK AdMob.
+     * `onReady(true)` signifie qu'une annonce peut être demandée.
      */
-    fun initialize(context: Context) {
-        if (isInitialized) return
-        
+    fun initialize(activity: Activity, onReady: (Boolean) -> Unit) {
+        if (!BuildConfig.DEBUG && BuildConfig.ADMOB_IS_TEST_IDS) {
+            Log.e(TAG, "IDs AdMob de test détectés en release: AdMob désactivé")
+            onReady(false)
+            return
+        }
+
+        val consentInfo = UserMessagingPlatform.getConsentInformation(activity)
+        val params = ConsentRequestParameters.Builder()
+            .setTagForUnderAgeOfConsent(false)
+            .build()
+
+        consentInfo.requestConsentInfoUpdate(
+            activity,
+            params,
+            {
+                UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity) { formError: FormError? ->
+                    if (formError != null) {
+                        Log.w(TAG, "Erreur formulaire consentement: ${formError.message}")
+                    }
+                    canRequestAds = consentInfo.canRequestAds()
+                    initializeMobileAds(activity.applicationContext) {
+                        onReady(canRequestAds)
+                    }
+                }
+            },
+            { requestError ->
+                Log.w(TAG, "Erreur update consentement: ${requestError.message}")
+                canRequestAds = consentInfo.canRequestAds()
+                initializeMobileAds(activity.applicationContext) {
+                    onReady(canRequestAds)
+                }
+            }
+        )
+    }
+
+    private fun initializeMobileAds(context: Context, onComplete: () -> Unit) {
+        if (isInitialized) {
+            onComplete()
+            return
+        }
+
         MobileAds.initialize(context) { initializationStatus ->
             Log.d(TAG, "AdMob initialisé: $initializationStatus")
             isInitialized = true
+            onComplete()
         }
     }
     
@@ -40,7 +91,21 @@ object AdManager {
      * Charge une bannière publicitaire
      */
     fun loadBanner(adView: AdView) {
-        val adRequest = AdRequest.Builder().build()
+        if (!isInitialized || !canRequestAds) {
+            Log.d(TAG, "Consentement non accordé ou AdMob non initialisé: bannière masquée")
+            adView.visibility = View.GONE
+            return
+        }
+
+        adView.visibility = View.VISIBLE
+
+        val npaBundle = Bundle().apply {
+            putString("npa", "1")
+        }
+
+        val adRequest = AdRequest.Builder()
+            .addNetworkExtrasBundle(AdMobAdapter::class.java, npaBundle)
+            .build()
         
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
@@ -65,5 +130,19 @@ object AdManager {
         }
         
         adView.loadAd(adRequest)
+    }
+
+    fun showPrivacyOptions(activity: Activity, onComplete: (Boolean) -> Unit) {
+        UserMessagingPlatform.showPrivacyOptionsForm(activity) { formError: FormError? ->
+            if (formError != null) {
+                Log.w(TAG, "Impossible d'ouvrir les options de confidentialité: ${formError.message}")
+                onComplete(false)
+                return@showPrivacyOptionsForm
+            }
+
+            val consentInfo = UserMessagingPlatform.getConsentInformation(activity)
+            canRequestAds = consentInfo.canRequestAds()
+            onComplete(true)
+        }
     }
 }
