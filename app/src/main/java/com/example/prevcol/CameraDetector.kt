@@ -54,6 +54,7 @@ class CameraDetector(
         val options = ObjectDetectorOptions.Builder()
             .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
             .enableMultipleObjects()
+            .enableClassification()  // ACTIVER la classification pour distinguer personne/animal
             .build()
 
         objectDetector = ObjectDetection.getClient(options)
@@ -127,57 +128,120 @@ class CameraDetector(
     ): CameraDetectionResult? {
         if (detectedObjects.isEmpty()) return null
 
-        // Prend l'objet le plus grand (le plus proche)
-        val best = detectedObjects.maxByOrNull {
-            it.boundingBox.height() * it.boundingBox.width()
-        } ?: return null
+        // Filtre les objets selon des critères stricts pour ne garder que les êtres vivants
+        val candidates = detectedObjects.mapNotNull { obj ->
+            val bboxH = obj.boundingBox.height().toFloat()
+            val bboxW = obj.boundingBox.width().toFloat()
+            val hRatio = bboxH / imageHeight
+            val wRatio = bboxW / imageWidth
+            val aspect = bboxW / bboxH  // largeur/hauteur
+            val topRatio = obj.boundingBox.top.toFloat() / imageHeight
+            val bottomRatio = obj.boundingBox.bottom.toFloat() / imageHeight
 
-        val bboxHeight = best.boundingBox.height().toFloat()
-        val bboxHeightRatio = bboxHeight / imageHeight
-        val centerX = best.boundingBox.centerX().toFloat() / imageWidth
+            // REJETER les faux positifs :
+            
+            // 1. Trop petit (< 8%) = bruit ou objet loin
+            if (hRatio < 0.08f) return@mapNotNull null
+            
+            // 2. Trop grand (> 85% de l'image en hauteur ET largeur) = fond/mur/sol
+            if (hRatio > 0.85f && wRatio > 0.85f) return@mapNotNull null
+            
+            // 3. Objet qui remplit presque toute la largeur = background (mur, sol, plafond)
+            if (wRatio > 0.90f) return@mapNotNull null
+            
+            // 4. Aspect ratio trop extrême : trop large (> 3:1) = barre/meuble
+            if (aspect > 3.0f) return@mapNotNull null
+            
+            // 5. Bbox qui commence tout en haut ET finit tout en bas = tout l'écran = background
+            if (topRatio < 0.05f && bottomRatio > 0.95f && wRatio > 0.6f) return@mapNotNull null
 
-        // ML Kit labels génériques : on déduit le type selon taille bbox
-        val category = best.labels.firstOrNull()?.text?.lowercase() ?: "person"
-        val confidence = best.labels.firstOrNull()?.confidence ?: 0.5f
+            // ML Kit labels
+            val label = obj.labels.firstOrNull()
+            val category = label?.text?.lowercase() ?: "unknown"
+            val confidence = label?.confidence ?: 0.0f
 
-        // Ignore objets trop petits (< 5% de l'image = trop loin, > 120m)
-        if (bboxHeightRatio < 0.05f) return null
+            // 6. Ignorer les catégories ML Kit qui ne sont clairement PAS des êtres vivants
+            // ML Kit base : "Fashion good"(0), "Food"(1), "Home good"(2), "Place"(3), "Plant"(4)
+            if (category == "place" || category == "food" || category == "plant" || category == "home good") return@mapNotNull null
 
-        val objectType = mapCategoryToObjectType(category, bboxHeightRatio)
+            // 7. Rejeter les labels à basse confiance (détection floue/incertaine)
+            if (label != null && confidence < 0.40f) return@mapNotNull null
 
-        return CameraDetectionResult(
-            category = category,
-            confidence = confidence,
-            boundingBoxHeightRatio = bboxHeightRatio,
-            centerX = centerX,
-            objectType = objectType
-        )
+            // 8. Pour les objets sans label (inconnus), n'accepter que si la géométrie
+            //    est fortement compatible avec une silhouette humaine debout :
+            //    bounding box verticale (aspect < 0.65), dans la moitié haute à centrale de l'image
+            if (label == null) {
+                if (!(aspect < 0.65f && topRatio < 0.55f && hRatio > 0.10f)) return@mapNotNull null
+            }
+
+            val centerX = obj.boundingBox.centerX().toFloat() / imageWidth
+            
+            val objectType = mapToObjectType(category, label?.index ?: -1, hRatio, aspect, topRatio)
+
+            CameraDetectionResult(
+                category = category,
+                confidence = confidence,
+                boundingBoxHeightRatio = hRatio,
+                centerX = centerX,
+                objectType = objectType
+            )
+        }
+
+        // Prend le candidat le plus grand (le plus proche), s'il y en a
+        return candidates.maxByOrNull { it.boundingBoxHeightRatio }
     }
 
     /**
-     * Mappe la catégorie ML Kit + taille bbox → ObjectType
-     * Estimation taille réelle : H_real = (H_ref * f) / H_bbox_pixels
+     * Détecte le type d'objet en combinant 3 indices :
+     * 1. Aspect ratio de la bbox (largeur/hauteur) : humain vertical, animal horizontal
+     * 2. Taille relative dans l'image (hauteur bbox / hauteur image)
+     * 3. Position verticale : un animal/chien est dans la moitié BASSE de l'image,
+     *    un humain debout occupe de haut en bas
      */
-    private fun mapCategoryToObjectType(category: String, heightRatio: Float): ObjectType {
-        return when {
-            category.contains("person") || category.contains("human") -> {
-                // Distingue adulte/enfant/bébé selon la proportion de l'image
-                when {
-                    heightRatio > 0.60f -> ObjectType.ADULTE   // Occupe >60% → adulte proche
-                    heightRatio > 0.35f -> ObjectType.ENFANT   // 35-60% → enfant ou adulte loin
-                    heightRatio > 0.15f -> ObjectType.BEBE     // 15-35% → bébé ou enfant loin
-                    else -> ObjectType.ADULTE
-                }
+    private fun mapToObjectType(
+        category: String,
+        categoryIndex: Int,
+        heightRatio: Float,
+        aspectRatio: Float,
+        topRatio: Float
+    ): ObjectType {
+        // Critères simples et fiables :
+        // - Humain debout = bbox VERTICAL (aspect < 0.65), commence en haut de l'image
+        // - Animal = bbox HORIZONTAL (aspect > 0.85), positionné dans la moitié basse
+        
+        // "Fashion good" (vêtements) → très forte indication d'un humain
+        if (category == "fashion good" && aspectRatio < 0.80f) {
+            return when {
+                heightRatio > 0.45f -> ObjectType.ADULTE
+                heightRatio > 0.20f -> ObjectType.ENFANT
+                else -> ObjectType.ADULTE
             }
-            category.contains("dog") || category.contains("animal") || category.contains("cat") -> {
-                when {
-                    heightRatio > 0.40f -> ObjectType.GRAND_CHIEN
-                    heightRatio > 0.20f -> ObjectType.MOYEN_CHIEN
-                    else -> ObjectType.PETIT_CHIEN
-                }
-            }
-            else -> ObjectType.ADULTE  // Par défaut
         }
+
+        // Animal : horizontal + bas dans l'image
+        if (aspectRatio > 0.85f && topRatio > 0.35f) {
+            return when {
+                heightRatio > 0.30f -> ObjectType.GRAND_CHIEN
+                heightRatio > 0.15f -> ObjectType.MOYEN_CHIEN
+                else -> ObjectType.PETIT_CHIEN
+            }
+        }
+
+        // Humain debout : bounding box verticale (plus haute que large)
+        // topRatio relaxé jusqu'à 0.55 pour capter l'approche frontale directe :
+        // quand une personne marche VERS vous, sa tête peut être au centre de l'image
+        if (aspectRatio < 0.70f && topRatio < 0.55f) {
+            return when {
+                heightRatio > 0.45f -> ObjectType.ADULTE
+                heightRatio > 0.20f -> ObjectType.ENFANT
+                else -> ObjectType.ADULTE  // silhouette verticale petite = adulte lointain
+            }
+        }
+
+        // Cas ambigu : ne pas classer comme ADULTE pour éviter les faux positifs
+        // Un objet qui ne ressemble clairement ni à une personne ni à un animal est ignoré
+        // (MOYEN_CHIEN ne déclenchera pas d'alerte puisqu'on ne vibre que pour les personnes)
+        return ObjectType.MOYEN_CHIEN
     }
 
     /**

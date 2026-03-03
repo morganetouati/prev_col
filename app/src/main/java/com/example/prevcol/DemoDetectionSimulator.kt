@@ -24,6 +24,8 @@ object DemoDetectionSimulator {
     private var lastDistance = 3f
     private var lastObjectChangeTime = 0L
     private var lastDetectionStateChange = 0L
+    private var objectTypeLockedTime = 0L
+    private val OBJECT_TYPE_LOCK_DURATION_MS = 60000L  // Verrouiller le type pendant 60s
     
     // État de détection : y a-t-il quelque chose ?
     var hasDetection = false
@@ -44,32 +46,34 @@ object DemoDetectionSimulator {
         private set
     private var lastAngle = 0f
     private var angleDirection = 5f  // Vitesse de déplacement horizontal
+    private var initialDirection = -0.03f  // Vitesse initiale d'approche
     
     fun simulateDetection(): Float? {
         val now = SystemClock.elapsedRealtime()
         
-        // Change l'état de détection toutes les 20-45 secondes (aléatoire)
-        // Intervalles longs pour éviter les fausses détections trop fréquentes
-        val detectionInterval = if (hasDetection) Random.nextLong(8000, 20000) else Random.nextLong(20000, 45000)
+        // Change l'état de détection toutes les 15-60 secondes
+        val detectionInterval = if (hasDetection) Random.nextLong(15000, 60000) else Random.nextLong(30000, 90000)
         if (now - lastDetectionStateChange > detectionInterval || lastDetectionStateChange == 0L) {
-            // 5% de chance d'avoir une détection (très réaliste : rarement du monde)
-            hasDetection = Random.nextFloat() < 0.05f
+            // 8% de chance d'avoir une détection (plus réaliste)
+            hasDetection = Random.nextFloat() < 0.08f
             lastDetectionStateChange = now
             
             if (hasDetection) {
-                // Nouvel objet détecté : réinitialise la distance à une valeur lointaine
-                currentDistance = Random.nextFloat() * 3f + 4f  // 4-7m
-                direction = -0.05f  // Approche
+                // Nouvel objet détecté : réinitialise la distance
+                currentDistance = Random.nextFloat() * 2f + 5f  // 5-7m
+                direction = -0.03f  // Approche lente et stable
+                initialDirection = direction
                 
-                // Type aléatoire
+                // Type aléatoire, mais VERROUILLÉ pendant 60s (pas de changement)
                 currentObjectType = ObjectType.values().random()
                 objectHeight = Random.nextFloat() * 
                     (currentObjectType.heightRange.second - currentObjectType.heightRange.first) + 
                     currentObjectType.heightRange.first
+                objectTypeLockedTime = now
                 
-                // Position angulaire aléatoire
-                currentAngle = Random.nextFloat() * 180f - 90f  // -90° à +90°
-                angleDirection = if (Random.nextBoolean()) 5f else -5f
+                // Position angulaire aléatoire au démarrage
+                currentAngle = Random.nextFloat() * 180f - 90f
+                angleDirection = if (Random.nextBoolean()) 3f else -3f
                 
                 lastObjectChangeTime = now
             }
@@ -85,7 +89,7 @@ object DemoDetectionSimulator {
             lastDistance = currentDistance
             lastAngle = currentAngle
             
-            // Simulation progressive de rapprochement
+            // Approche progressive et stable (pas de changement aléatoire du type)
             currentDistance += direction
             
             // Si l'objet s'éloigne trop (> 10m), il "disparaît"
@@ -95,27 +99,27 @@ object DemoDetectionSimulator {
                 return null
             }
             
-            // Rebond aux extrémités
+            // Rebond aux limites (plus loin = approche plus lente, plus près = rebond)
             if (currentDistance <= 0.5f) {
-                direction = 0.05f
-            } else if (currentDistance >= 5f) {
-                direction = -0.05f
+                direction = 0.02f  // Éloignement lent
+            } else if (currentDistance >= 6f && direction > 0) {
+                direction = -0.03f  // Revenir à l'approche
             }
             
-            // Déplacement horizontal (gauche-droite)
+            // Déplacement horizontal lent et stable
             currentAngle += angleDirection
             if (currentAngle < -90f || currentAngle > 90f) {
-                angleDirection = -angleDirection  // Rebond horizontal
+                angleDirection = -angleDirection
                 currentAngle = currentAngle.coerceIn(-90f, 90f)
             }
             
-            // Ajout de bruit
-            currentDistance += Random.nextFloat() * 0.2f - 0.1f
+            // Bruit minimal (0.05m seulement)
+            currentDistance += Random.nextFloat() * 0.05f - 0.025f
             currentDistance = currentDistance.coerceIn(0.5f, 10f)
             
-            // Détecte approche rapide si distance diminue très vite (> 0.15 par 100ms)
+            // Détecte approche rapide SI distance diminue beaucoup (> 0.2 par 100ms) ET < 2.5m
             val distanceChange = lastDistance - currentDistance
-            isRapidApproach = distanceChange > 0.15f && currentDistance < 2.0f
+            isRapidApproach = distanceChange > 0.2f && currentDistance < 2.5f
             
             lastSimulationTime = now
         }
@@ -129,12 +133,12 @@ object DemoDetectionSimulator {
      */
     fun getAdaptedThresholds(): Pair<Float, Float> {
         return when (currentObjectType) {
-            ObjectType.ADULTE -> 2.0f to 1.5f         // Alerte à 2m, danger à 1.5m
-            ObjectType.ENFANT -> 1.5f to 1.0f         // Alerte à 1.5m, danger à 1m
-            ObjectType.BEBE -> 1.2f to 0.8f           // Alerte à 1.2m, danger à 0.8m (petit)
-            ObjectType.PETIT_CHIEN -> 0.8f to 0.4f    // Alerte à 0.8m, danger à 0.4m (très petit)
-            ObjectType.MOYEN_CHIEN -> 1.2f to 0.7f    // Alerte à 1.2m, danger à 0.7m
-            ObjectType.GRAND_CHIEN -> 1.5f to 1.0f    // Alerte à 1.5m, danger à 1m (comme enfant)
+            ObjectType.ADULTE -> 2.5f to 2.0f         // Alerte à 2.5m, danger à 2m (augmenté pour moins de fausses alertes)
+            ObjectType.ENFANT -> 2.0f to 1.5f         // Alerte à 2m, danger à 1.5m
+            ObjectType.BEBE -> 1.5f to 1.2f           // Alerte à 1.5m, danger à 1.2m
+            ObjectType.PETIT_CHIEN -> 1.0f to 0.6f    // Alerte à 1m, danger à 0.6m
+            ObjectType.MOYEN_CHIEN -> 1.5f to 1.0f    // Alerte à 1.5m, danger à 1m
+            ObjectType.GRAND_CHIEN -> 2.0f to 1.5f    // Alerte à 2m, danger à 1.5m
         }
     }
     

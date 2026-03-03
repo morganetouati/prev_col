@@ -1,10 +1,14 @@
 package com.example.prevcol
 
 import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.os.PowerManager
 import android.os.SystemClock
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -57,12 +61,37 @@ class DetectionService : Service(), SensorEventListener {
     // Détection de poche (capteur proximité)
     private var proximitySensor: Sensor? = null
     private var isInPocket = false
-    
+
+    // Détection écran verrouillé
+    private var isScreenInteractive = true
+    private val screenStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.action) {
+                Intent.ACTION_SCREEN_OFF -> {
+                    // Écran éteint / verrouillé → mise en veille immédiate
+                    isScreenInteractive = false
+                    radarOverlay.hide()
+                    val nm = NotificationManagerCompat.from(this@DetectionService)
+                    if (isAlertShowing) {
+                        nm.cancel(ALERT_NOTIFICATION_ID)
+                        isAlertShowing = false
+                        lastAlertNotificationKey = ""
+                    }
+                    isDanger = false
+                }
+                Intent.ACTION_USER_PRESENT -> {
+                    // Utilisateur a déverrouillé l'écran → reprise
+                    isScreenInteractive = true
+                }
+            }
+        }
+    }
+
     private var lastVibrationTime = 0L
-    private val minVibrationIntervalMs = 3000L
+    private val minVibrationIntervalMs = 6000L  // Augmenté à 6s pour éviter vibrations répétées
     private var isDanger = false
     private var lastRapidApproachTime = 0L
-    private val minRapidApproachIntervalMs = 2000L  // Max une approche rapide tous les 2s
+    private val minRapidApproachIntervalMs = 5000L  // Augmenté à 5s pour approches rapides
     
     // Deux types de notifications
     private val SERVICE_NOTIFICATION_ID = 1
@@ -76,7 +105,7 @@ class DetectionService : Service(), SensorEventListener {
     private val serviceNotificationMinIntervalMs = 1500L
     private var lastAlertNotificationTime = 0L
     private var lastAlertNotificationKey = ""
-    private val alertNotificationMinIntervalMs = 700L
+    private val alertNotificationMinIntervalMs = 1500L  // Augmenté à 1.5s pour moins de notifications
 
     override fun onCreate() {
         super.onCreate()
@@ -104,6 +133,15 @@ class DetectionService : Service(), SensorEventListener {
                 if (result != null) lastCameraResultTime = SystemClock.elapsedRealtime()
             }
         }
+
+        // Initialise l'état de l'écran et enregistre le récepteur
+        val pm = getSystemService(POWER_SERVICE) as PowerManager
+        isScreenInteractive = pm.isInteractive
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_OFF)
+            addAction(Intent.ACTION_USER_PRESENT)
+        }
+        registerReceiver(screenStateReceiver, filter)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -212,8 +250,8 @@ class DetectionService : Service(), SensorEventListener {
             if (isRunning) {
                 val nextDelayMs = if (isWalking) activePollIntervalMs else idlePollIntervalMs
 
-                // Si téléphone dans la poche, mettre en veille
-                if (isInPocket) {
+                // Si téléphone dans la poche OU écran verrouillé → veille complète
+                if (isInPocket || !isScreenInteractive) {
                     radarOverlay.hide()
                     maybeUpdateServiceNotification(useCameraDetection, hasDetection = false)
                     handler.postDelayed(this, idlePollIntervalMs)
@@ -244,7 +282,7 @@ class DetectionService : Service(), SensorEventListener {
                             angle = detector.estimateAngle(camResult.centerX)
                             hasDetection = true
                             direction = DemoDetectionSimulator.getMovementDirection()
-                            isRapidApproach = distance < 1.0f && camResult.confidence > 0.7f
+                            isRapidApproach = distance < 1.8f && camResult.confidence > 0.60f
                         } else {
                             distance = null
                             hasDetection = false
@@ -286,14 +324,14 @@ class DetectionService : Service(), SensorEventListener {
                     }
                     isDanger = false
                 } else {
-                    updateAlertNotification(distance, isRapidApproach)
+                    updateAlertNotification(distance, isRapidApproach, objectType)
                     if (isWalking) {
                         radarOverlay.show()
                         radarOverlay.updateDetections(distance, angle, objectType, height, direction)
                     } else {
                         radarOverlay.hide()
                     }
-                    handleAlerts(distance, isRapidApproach)
+                    handleAlerts(distance, isRapidApproach, objectType)
                 }
                 
                 handler.postDelayed(this, nextDelayMs)
@@ -329,10 +367,21 @@ class DetectionService : Service(), SensorEventListener {
         startForeground(SERVICE_NOTIFICATION_ID, notification)
     }
     
-    private fun updateAlertNotification(distanceM: Float, isRapidApproach: Boolean) {
+    private fun updateAlertNotification(distanceM: Float, isRapidApproach: Boolean, detectedType: ObjectType) {
         val notificationManager = NotificationManagerCompat.from(this)
         val now = SystemClock.elapsedRealtime()
-        
+
+        // Alertes uniquement pour les personnes — ignorer les animaux et objets
+        val isPerson = detectedType == ObjectType.ADULTE || detectedType == ObjectType.ENFANT || detectedType == ObjectType.BEBE
+        if (!isPerson) {
+            if (isAlertShowing) {
+                notificationManager.cancel(ALERT_NOTIFICATION_ID)
+                isAlertShowing = false
+                lastAlertNotificationKey = ""
+            }
+            return
+        }
+
         // Si le téléphone n'est pas en marche, annule toutes les alertes
         if (!isWalking) {
             if (isAlertShowing) {
@@ -342,14 +391,23 @@ class DetectionService : Service(), SensorEventListener {
             }
             return
         }
-        
-        // Récupère les seuils adaptés au type d'objet détecté
-        val thresholds = DemoDetectionSimulator.getAdaptedThresholds()
-        val alertThreshold = thresholds.first   // Ex: 2m pour adulte, 1.5m pour enfant
-        val dangerThreshold = thresholds.second // Ex: 1.5m pour adulte, 1m pour enfant
-        
-        val objectType = DemoDetectionSimulator.currentObjectType
-        val objectHeight = DemoDetectionSimulator.objectHeight
+
+        // Seuils de distance selon le type de personne détectée par la caméra
+        val alertThreshold = when (detectedType) {
+            ObjectType.ADULTE -> 2.5f
+            ObjectType.ENFANT -> 2.0f
+            ObjectType.BEBE   -> 2.0f
+            else -> 2.0f
+        }
+        val dangerThreshold = when (detectedType) {
+            ObjectType.ADULTE -> 1.5f
+            ObjectType.ENFANT -> 1.2f
+            ObjectType.BEBE   -> 1.0f
+            else -> 1.2f
+        }
+
+        val objectType = detectedType
+        val objectHeight = detectedType.heightRange.first
         
         val newIsDanger = distanceM <= alertThreshold
         isDanger = newIsDanger
@@ -411,12 +469,21 @@ class DetectionService : Service(), SensorEventListener {
         }
     }
 
-    private fun handleAlerts(distanceM: Float, isRapidApproach: Boolean) {
+    private fun handleAlerts(distanceM: Float, isRapidApproach: Boolean, detectedType: ObjectType) {
         if (!isWalking) return
+
+        // Vibration uniquement pour les personnes (pas pour les chiens ou objets)
+        val isPerson = detectedType == ObjectType.ADULTE || detectedType == ObjectType.ENFANT || detectedType == ObjectType.BEBE
+        if (!isPerson) return
+
         val now = SystemClock.elapsedRealtime()
-        val thresholds = DemoDetectionSimulator.getAdaptedThresholds()
-        val dangerThreshold = thresholds.second
-        val objectType = DemoDetectionSimulator.currentObjectType
+        val dangerThreshold = when (detectedType) {
+            ObjectType.ADULTE -> 1.5f
+            ObjectType.ENFANT -> 1.2f
+            ObjectType.BEBE   -> 1.0f
+            else -> 1.2f
+        }
+        val objectType = detectedType
 
         if (distanceM < dangerThreshold && now - lastVibrationTime > minVibrationIntervalMs) {
             val v = getSystemService(VIBRATOR_SERVICE) as Vibrator
@@ -494,6 +561,7 @@ class DetectionService : Service(), SensorEventListener {
         super.onDestroy()
         stopDetection()
         tone.release()
+        try { unregisterReceiver(screenStateReceiver) } catch (_: Exception) {}
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

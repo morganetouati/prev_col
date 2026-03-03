@@ -17,15 +17,15 @@ def admobBannerId = providers.gradleProperty("ADMOB_BANNER_ID").orElse(defaultAd
 def usingTestAdmobIds = admobAppId.contains("3940256099942544") || admobBannerId.contains("3940256099942544")
 
 android {
-    compileSdk 34
+    compileSdk 35
     namespace "com.example.prevcol"
 
     defaultConfig {
         applicationId "com.regardsaumonde.app"
         minSdk 23
-        targetSdk 34
-        versionCode 3
-        versionName "1.1.0"
+        targetSdk 35
+        versionCode 5
+        versionName "1.2.0"
 
         resValue "string", "admob_app_id", "\"${admobAppId}\""
         resValue "string", "admob_banner_id", "\"${admobBannerId}\""
@@ -56,6 +56,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             if (keystorePropertiesFile.exists()) {
                 signingConfig signingConfigs.release
+            }
+            // Symboles de debug natifs inclus dans l'AAB (analyse crashs Play Store)
+            ndk {
+                debugSymbolLevel 'FULL'
             }
         }
         debug {
