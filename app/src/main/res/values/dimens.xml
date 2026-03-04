@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_main">20dp</dimen>
+    <dimen name="page_padding">24dp</dimen>
+    <dimen name="icon_size">80dp</dimen>
+    <dimen name="big_icon_size">100dp</dimen>
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="button_height_small">48dp</dimen>
+    <dimen name="language_button_size">52dp</dimen>
+    <dimen name="margin_xsmall">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_tiny">10dp</dimen>
+    <dimen name="margin_medium">12dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_large">20dp</dimen>
+    <dimen name="margin_xlarge">24dp</dimen>
+    <dimen name="margin_xxlarge">28dp</dimen>
+    <dimen name="margin_xxxlarge">32dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="line_spacing_small">4dp</dimen>
+    <dimen name="line_spacing_medium">6dp</dimen>
+    <dimen name="elevation_card">8dp</dimen>
+    <dimen name="icon_margin_bottom">16dp</dimen>
+</resources>

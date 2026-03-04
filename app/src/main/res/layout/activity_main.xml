@@ -18,13 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="@dimen/padding_main">
 
             <!-- Language Button (Flag) -->
             <Button
                 android:id="@+id/languageButton"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
+                android:layout_width="@dimen/language_button_size"
+                android:layout_height="@dimen/language_button_size"
                 android:layout_gravity="end"
                 android:text="🇫🇷"
                 android:textSize="26sp"
@@ -38,14 +38,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp">
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/page_padding">
 
                 <!-- Icon cercle avec gradient -->
                 <FrameLayout
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="16dp">
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:layout_marginBottom="@dimen/icon_margin_bottom">
 
                     <View
                         android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                     android:textSize="14sp"
                     android:textColor="@color/text_secondary"
                     android:gravity="center"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="@dimen/margin_xsmall" />
 
             </LinearLayout>
 
@@ -93,16 +93,16 @@
                 android:textSize="13sp"
                 android:textColor="@color/text_hint"
                 android:gravity="center"
-                android:layout_marginBottom="24dp"
-                android:paddingHorizontal="8dp" />
+                android:layout_marginBottom="@dimen/page_padding"
+                android:paddingHorizontal="@dimen/padding_small" />
 
             <!-- Stats Card - Style glassmorphism -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp"
-                android:layout_marginBottom="16dp"
+                android:padding="@dimen/padding_main"
+                android:layout_marginBottom="@dimen/margin_16"
                 android:background="@drawable/bg_card"
                 android:contentDescription="@string/desc_stats_card"
                 android:importantForAccessibility="yes">
@@ -114,7 +114,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="@dimen/margin_16" />
 
                 <TextView
                     android:id="@+id/totalPointsText"
@@ -123,7 +123,7 @@
                     android:text="🎯 Points: 0"
                     android:textSize="16sp"
                     android:textColor="@color/accent"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_marginBottom="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/totalAlertsText"
@@ -132,7 +132,7 @@
                     android:text="⚠️ Alertes évitées: 0"
                     android:textSize="16sp"
                     android:textColor="@color/text_secondary"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_marginBottom="@dimen/margin_tiny" />
 
                 <TextView
                     android:id="@+id/rapidApproachText"
@@ -149,8 +149,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp"
-                android:layout_marginBottom="20dp"
+                android:padding="@dimen/padding_main"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:background="@drawable/bg_card"
                 android:contentDescription="@string/desc_badges_card"
                 android:importantForAccessibility="yes">
@@ -162,7 +162,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="@dimen/margin_16" />
 
                 <TextView
                     android:id="@+id/badgesText"
@@ -171,7 +171,7 @@
                     android:text="@string/no_badges"
                     android:textSize="14sp"
                     android:textColor="@color/text_hint"
-                    android:lineSpacingExtra="4dp" />
+                    android:lineSpacingExtra="@dimen/line_spacing_small" />
 
             </LinearLayout>
 
@@ -179,13 +179,13 @@
             <Button
                 android:id="@+id/refreshButton"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="@dimen/button_height"
                 android:text="@string/refresh_button"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
                 android:background="@drawable/bg_button_primary"
-                android:elevation="8dp"
+                android:elevation="@dimen/elevation_card"
                 android:letterSpacing="0.05"
                 android:contentDescription="@string/desc_refresh_button"
                 android:importantForAccessibility="yes" />
@@ -193,8 +193,8 @@
             <Button
                 android:id="@+id/privacyOptionsButton"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
+                android:layout_height="@dimen/button_height_small"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:text="@string/privacy_options_button"
                 android:textSize="14sp"
                 android:textColor="@color/text_primary"
@@ -205,8 +205,8 @@
             <Button
                 android:id="@+id/appDescriptionButton"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="@dimen/button_height_small"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:text="@string/app_description_button"
                 android:textSize="14sp"
                 android:textColor="@color/text_primary"

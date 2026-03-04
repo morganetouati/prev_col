@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_main">32dp</dimen>
+    <dimen name="page_padding">36dp</dimen>
+    <dimen name="icon_size">140dp</dimen>
+    <dimen name="big_icon_size">160dp</dimen>
+    <dimen name="button_height">72dp</dimen>
+    <dimen name="button_height_small">64dp</dimen>
+</resources>
