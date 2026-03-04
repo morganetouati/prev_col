@@ -207,23 +207,10 @@ Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de détails.
 
 ---
 
-## 🤝 Contribuer
-
-Les contributions sont les bienvenues ! 
-
-1. Fork le projet
-2. Créez une branche (`git checkout -b feature/amazing-feature`)
-3. Commit (`git commit -m 'Add amazing feature'`)
-4. Push (`git push origin feature/amazing-feature`)
-5. Ouvrez une Pull Request
-
----
-
 ## 📧 Contact
 
 **Projet** : Regards au Monde  
-**Issue Tracker** : [GitHub Issues](../../issues)
-
+**Made by The Watchful Eye**
 ---
 
 <p align="center">
