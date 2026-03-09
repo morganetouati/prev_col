@@ -13,8 +13,9 @@
     <string name="rapid_label">⚡ الاقترابات السريعة: %d</string>
     <string name="streak_label">🔥 السلسلة: %d يوم</string>
     <string name="next_level_label">➡️ %d نقطة للمستوى التالي</string>
-    <string name="badges_title">🏆 الشارات المفتوحة</string>
+    <string name="badges_title">🏆 الشارات</string>
     <string name="no_badges">لا توجد شارات مفتوحة</string>
+    <string name="badges_unlocked">شارات مفتوحة</string>
     <string name="refresh_button">🔄 تحديث</string>
     <string name="stats_refreshed">تم تحديث الإحصائيات!</string>
     

@@ -1,0 +1,62 @@
+=== Screenshot Capture for tablet7 ===
+--- Waiting for device ---
+Device connected
+--- Wait for boot ---
+Still booting...
+Still booting...
+Still booting...
+Still booting...
+Still booting...
+Still booting...
+Still booting...
+Still booting...
+Still booting...
+Still booting...
+Boot complete
+--- Installing APK ---
+Performing Streamed Install
+Success
+--- Checking connection ---
+List of devices attached
+emulator-5554	device
+
+--- Going Home ---
+--- Launching App via shell ---
+Stopping: com.regardsaumonde.app
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.regardsaumonde.app/.PrivacyActivity }
+Error type 3
+Error: Activity class {com.regardsaumonde.app/com.regardsaumonde.app.PrivacyActivity} does not exist.
+--- Check connection ---
+List of devices attached
+emulator-5554	device
+
+--- Screenshot 1: Privacy ---
+Saved 01_privacy.png
+--- Get screen size ---
+Size: 1200x1920
+Tap position: 600, 1440
+--- Tap Accept ---
+--- Screenshot 2: Main ---
+Saved 02_main.png
+--- Navigate to Stats ---
+Starting: Intent { cmp=com.regardsaumonde.app/.StatsActivity }
+Error type 3
+Error: Activity class {com.regardsaumonde.app/com.regardsaumonde.app.StatsActivity} does not exist.
+--- Screenshot 3: Stats ---
+Saved 03_stats.png
+--- Back to Main ---
+--- Screenshot 4: Main Final ---
+Saved 04_main_final.png
+=== Results ===
+ Le volume dans le lecteur C s'appelle Windows
+ Le num‚ro de s‚rie du volume est 3CB5-22EB
+
+ R‚pertoire de c:\Users\morgane\Desktop\prev_col\screenshots\tablet7
+
+09/03/2026  11:00         1ÿ914ÿ311 01_privacy.png
+09/03/2026  11:01           828ÿ704 02_main.png
+09/03/2026  11:01         1ÿ915ÿ109 03_stats.png
+09/03/2026  11:01         1ÿ865ÿ654 04_main_final.png
+               4 fichier(s)        6ÿ523ÿ778 octets
+               0 R‚p(s)  24ÿ502ÿ341ÿ632 octets libres
+=== DONE ===

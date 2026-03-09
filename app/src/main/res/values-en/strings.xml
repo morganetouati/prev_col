@@ -13,8 +13,9 @@
     <string name="rapid_label">⚡ Rapid approaches: %d</string>
     <string name="streak_label">🔥 Streak: %d days</string>
     <string name="next_level_label">➡️ %d points to next level</string>
-    <string name="badges_title">🏆 Unlocked badges</string>
+    <string name="badges_title">🏆 Badges</string>
     <string name="no_badges">No badges unlocked yet</string>
+    <string name="badges_unlocked">badges unlocked</string>
     <string name="refresh_button">🔄 Refresh</string>
     <string name="stats_refreshed">Stats refreshed!</string>
     

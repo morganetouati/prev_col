@@ -13,8 +13,9 @@
     <string name="rapid_label">⚡ התקרבויות מהירות: %d</string>
     <string name="streak_label">🔥 רצף: %d ימים</string>
     <string name="next_level_label">➡️ %d נקודות לשלב הבא</string>
-    <string name="badges_title">🏆 תגים שנפתחו</string>
+    <string name="badges_title">🏆 תגים</string>
     <string name="no_badges">אין תגים פתוחים</string>
+    <string name="badges_unlocked">תגים נפתחו</string>
     <string name="refresh_button">🔄 רענן</string>
     <string name="stats_refreshed">הסטטיסטיקות התרעננו!</string>
     

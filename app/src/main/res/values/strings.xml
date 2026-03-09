@@ -13,8 +13,9 @@
     <string name="rapid_label">⚡ Approches rapides: %d</string>
     <string name="streak_label">🔥 Série: %d jours</string>
     <string name="next_level_label">➡️ %d points avant niveau suivant</string>
-    <string name="badges_title">🏆 Badges débloqués</string>
+    <string name="badges_title">🏆 Badges</string>
     <string name="no_badges">Aucun badge débloqué</string>
+    <string name="badges_unlocked">badges débloqués</string>
     <string name="refresh_button">🔄 Actualiser</string>
     <string name="stats_refreshed">Statistiques actualisées !</string>
     <string name="privacy_options_button">🔐 Paramètres de confidentialité pub</string>

@@ -3,23 +3,26 @@ package com.example.prevcol
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.gms.ads.AdView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var gameStats: GameStats
-    private lateinit var adView: AdView
+    private lateinit var adContainer: FrameLayout
     
     // Apply saved language before onCreate
     override fun attachBaseContext(newBase: Context) {
@@ -60,13 +63,13 @@ class MainActivity : AppCompatActivity() {
             return
         }
         
-        // Initialise AdMob et charge la bannière
-        adView = findViewById(R.id.adView)
+        // Initialise AdMob et charge la bannière adaptative
+        adContainer = findViewById(R.id.adContainer)
         AdManager.initialize(this) { canRequestAds ->
             if (canRequestAds) {
-                AdManager.loadBanner(adView)
+                AdManager.loadAdaptiveBanner(this@MainActivity, adContainer)
             } else {
-                adView.visibility = android.view.View.GONE
+                adContainer.visibility = android.view.View.GONE
             }
         }
 
@@ -88,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.privacyOptionsButton).setOnClickListener {
             AdManager.showPrivacyOptions(this) { updated ->
                 if (updated) {
-                    AdManager.loadBanner(adView)
+                    AdManager.loadAdaptiveBanner(this@MainActivity, adContainer)
                     Toast.makeText(this, getString(R.string.privacy_options_updated), Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, getString(R.string.privacy_options_unavailable), Toast.LENGTH_SHORT).show()
@@ -204,12 +207,40 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.rapidApproachText).text =
             getString(R.string.rapid_label, rapidAlerts) + streakStr
 
-        val badgesText = findViewById<TextView>(R.id.badgesText)
-        if (badges.isEmpty()) {
-            badgesText.text = getString(R.string.no_badges)
-        } else {
-            val list = badges.mapNotNull { GameStats.BADGE_DESCRIPTIONS[it] }
-            badgesText.text = list.joinToString("\n\n")        }
+        // Afficher tous les 12 badges (débloqués + verrouillés)
+        val badgesTextView = findViewById<TextView>(R.id.badgesText)
+        val unlockedBadges = gameStats.getAllBadges()
+        val ssb = SpannableStringBuilder()
+
+        // Titre compteur
+        val countText = "${unlockedBadges.size}/${GameStats.ALL_BADGE_IDS.size} ${getString(R.string.badges_unlocked)}\n\n"
+        ssb.append(countText)
+        val countEnd = ssb.length
+        ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.accent)), 0, countEnd, 0)
+
+        for ((index, badgeId) in GameStats.ALL_BADGE_IDS.withIndex()) {
+            val isUnlocked = unlockedBadges.contains(badgeId)
+            val description = GameStats.BADGE_DESCRIPTIONS[badgeId] ?: badgeId
+            val displayText = if (isUnlocked) {
+                "✅ $description"
+            } else {
+                "🔒 ${description.replace(Regex("^[^\\s]+"), "❓")}"
+            }
+
+            val start = ssb.length
+            ssb.append(displayText)
+            val end = ssb.length
+
+            if (!isUnlocked) {
+                ssb.setSpan(ForegroundColorSpan(Color.parseColor("#666666")), start, end, 0)
+            }
+
+            if (index < GameStats.ALL_BADGE_IDS.size - 1) {
+                ssb.append("\n\n")
+            }
+        }
+
+        badgesTextView.text = ssb
     }
 
 }

@@ -26,8 +26,8 @@
                 android:layout_width="@dimen/language_button_size"
                 android:layout_height="@dimen/language_button_size"
                 android:layout_gravity="end"
-                android:text="🇫🇷"
-                android:textSize="26sp"
+                android:text="\uD83C\uDDEB\uD83C\uDDF7"
+                android:textSize="@dimen/text_title"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/desc_language_button"
                 android:importantForAccessibility="yes" />
@@ -55,7 +55,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="👁️"
+                        android:text="\uD83D\uDC41\uFE0F"
                         android:textSize="36sp"
                         android:gravity="center" />
 
@@ -66,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/app_title"
-                    android:textSize="26sp"
+                    android:textSize="@dimen/text_title"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
                     android:gravity="center"
@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/app_subtitle"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_subtitle"
                     android:textColor="@color/text_secondary"
                     android:gravity="center"
                     android:layout_marginTop="@dimen/margin_xsmall" />
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/quick_settings_hint"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_hint"
                 android:textColor="@color/text_hint"
                 android:gravity="center"
                 android:layout_marginBottom="@dimen/page_padding"
@@ -111,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/stats_title"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_section_title"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
                     android:layout_marginBottom="@dimen/margin_16" />
@@ -120,8 +120,8 @@
                     android:id="@+id/totalPointsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🎯 Points: 0"
-                    android:textSize="16sp"
+                    android:text="\uD83C\uDFAF Points: 0"
+                    android:textSize="@dimen/text_stats"
                     android:textColor="@color/accent"
                     android:layout_marginBottom="@dimen/margin_tiny" />
 
@@ -129,8 +129,8 @@
                     android:id="@+id/totalAlertsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="⚠️ Alertes évitées: 0"
-                    android:textSize="16sp"
+                    android:text="\u26A0\uFE0F Alertes \u00e9vit\u00e9es: 0"
+                    android:textSize="@dimen/text_stats"
                     android:textColor="@color/text_secondary"
                     android:layout_marginBottom="@dimen/margin_tiny" />
 
@@ -138,8 +138,8 @@
                     android:id="@+id/rapidApproachText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="⚡ Approches rapides: 0"
-                    android:textSize="16sp"
+                    android:text="\u26A1 Approches rapides: 0"
+                    android:textSize="@dimen/text_stats"
                     android:textColor="@color/text_secondary" />
 
             </LinearLayout>
@@ -159,7 +159,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/badges_title"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_section_title"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
                     android:layout_marginBottom="@dimen/margin_16" />
@@ -169,7 +169,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/no_badges"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_badge"
                     android:textColor="@color/text_hint"
                     android:lineSpacingExtra="@dimen/line_spacing_small" />
 
@@ -181,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:text="@string/refresh_button"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_button"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
                 android:background="@drawable/bg_button_primary"
@@ -196,7 +196,7 @@
                 android:layout_height="@dimen/button_height_small"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:text="@string/privacy_options_button"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_button_small"
                 android:textColor="@color/text_primary"
                 android:background="@drawable/bg_card"
                 android:contentDescription="@string/desc_privacy_options_button"
@@ -208,7 +208,7 @@
                 android:layout_height="@dimen/button_height_small"
                 android:layout_marginTop="@dimen/margin_tiny"
                 android:text="@string/app_description_button"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_button_small"
                 android:textColor="@color/text_primary"
                 android:background="@drawable/bg_card"
                 android:contentDescription="@string/desc_app_description_button"
@@ -218,14 +218,12 @@
 
     </ScrollView>
 
-    <!-- Bannière publicitaire en bas -->
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
+    <!-- Bannière publicitaire adaptative en bas -->
+    <FrameLayout
+        android:id="@+id/adContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/admob_banner_id" />
+        android:layout_gravity="center" />
 
 </LinearLayout>
 

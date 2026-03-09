@@ -13,8 +13,9 @@
     <string name="rapid_label">⚡ Acercamientos rápidos: %d</string>
     <string name="streak_label">🔥 Racha: %d días</string>
     <string name="next_level_label">➡️ %d puntos para el siguiente nivel</string>
-    <string name="badges_title">🏆 Insignias desbloqueadas</string>
+    <string name="badges_title">🏆 Insignias</string>
     <string name="no_badges">Ninguna insignia desbloqueada</string>
+    <string name="badges_unlocked">insignias desbloqueadas</string>
     <string name="refresh_button">🔄 Actualizar</string>
     <string name="stats_refreshed">¡Estadísticas actualizadas!</string>
     

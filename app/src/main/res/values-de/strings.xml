@@ -13,8 +13,9 @@
     <string name="rapid_label">⚡ Schnelle Annäherungen: %d</string>
     <string name="streak_label">🔥 Serie: %d Tage</string>
     <string name="next_level_label">➡️ %d Punkte bis zum nächsten Level</string>
-    <string name="badges_title">🏆 Freigeschaltete Abzeichen</string>
+    <string name="badges_title">🏆 Abzeichen</string>
     <string name="no_badges">Keine Abzeichen freigeschaltet</string>
+    <string name="badges_unlocked">Abzeichen freigeschaltet</string>
     <string name="refresh_button">🔄 Aktualisieren</string>
     <string name="stats_refreshed">Statistiken aktualisiert!</string>
     
