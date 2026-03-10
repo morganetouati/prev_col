@@ -41,24 +41,23 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/page_padding">
 
-                <!-- Icon cercle avec gradient -->
+                <!-- Logo carré gradient + œil (identique à consentement) -->
                 <FrameLayout
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:layout_marginBottom="@dimen/icon_margin_bottom">
-
+                    android:layout_width="@dimen/big_icon_size"
+                    android:layout_height="@dimen/big_icon_size"
+                    android:layout_marginBottom="@dimen/page_padding">
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_gradient_button" />
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="\uD83D\uDC41\uFE0F"
-                        android:textSize="36sp"
-                        android:gravity="center" />
-
+                        android:textSize="44sp"
+                        android:gravity="center"
+                        android:contentDescription="@string/desc_app_logo"
+                        android:importantForAccessibility="yes" />
                 </FrameLayout>
 
                 <TextView
