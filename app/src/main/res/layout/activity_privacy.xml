@@ -23,7 +23,7 @@
             android:contentDescription="@string/desc_language_button"
             android:importantForAccessibility="yes" />
 
-        <!-- Logo avec cercle gradient -->
+        <!-- Logo avec cercle gradient + œil vectoriel -->
         <FrameLayout
             android:layout_width="@dimen/big_icon_size"
             android:layout_height="@dimen/big_icon_size"
@@ -35,12 +35,12 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_gradient_button" />
 
-            <TextView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="\uD83D\uDC41\uFE0F"
-                android:textSize="44sp"
-                android:gravity="center"
+                android:src="@drawable/ic_eye_logo"
+                android:scaleType="centerInside"
+                android:padding="12dp"
                 android:contentDescription="@string/desc_app_logo"
                 android:importantForAccessibility="yes" />
 
