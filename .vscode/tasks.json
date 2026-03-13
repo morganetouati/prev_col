@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Release AAB",
+			"type": "shell",
+			"command": "cd c:\\Users\\morgane\\Desktop\\prev_col; .\\gradlew.bat :app:bundleRelease --no-daemon --console=plain",
+			"isBackground": false,
+			"group": "build"
+		}
+	]
+}

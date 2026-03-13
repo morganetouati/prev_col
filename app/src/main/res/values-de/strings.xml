@@ -1,121 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App name -->
     <string name="app_name">Weltblick</string>
-    
-    <!-- Main Activity -->
-    <string name="app_title">👁️ Weltblick</string>
-    <string name="app_subtitle">Ihre Statistiken und Abzeichen</string>
-    <string name="quick_settings_hint">💡 Aktivieren Sie Überwachung über Schnelleinstellungen (👁️ Symbol)</string>
-    <string name="stats_title">📊 Statistiken</string>
-    <string name="points_label">🎯 Punkte: %1$d | %2$s</string>
-    <string name="alerts_label">⚠️ Vermiedene Warnungen: %d</string>
-    <string name="rapid_label">⚡ Schnelle Annäherungen: %d</string>
-    <string name="streak_label">🔥 Serie: %d Tage</string>
-    <string name="next_level_label">➡️ %d Punkte bis zum nächsten Level</string>
-    <string name="badges_title">🏆 Abzeichen</string>
-    <string name="no_badges">Keine Abzeichen freigeschaltet</string>
-    <string name="badges_unlocked">Abzeichen freigeschaltet</string>
-    <string name="refresh_button">🔄 Aktualisieren</string>
-    <string name="stats_refreshed">Statistiken aktualisiert!</string>
-    
-    <!-- Privacy Activity -->
+    <string name="app_title">Weltblick</string>
+    <string name="app_subtitle">Ihr Fu&#223;g&#228;nger-Wachsamkeitsassistent</string>
+    <string name="quick_settings_hint">Tippen Sie auf das Auge, um die &#220;berwachung zu aktivieren/deaktivieren</string>
+    <string name="surveillance_active">&#220;berwachung aktiviert</string>
+    <string name="surveillance_inactive">&#220;berwachung deaktiviert</string>
+    <string name="desc_eye_toggle">Schaltfl&#228;che zum Aktivieren oder Deaktivieren der &#220;berwachung</string>
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_back">Zur&#252;ck</string>
+    <string name="vibration_label">Vibrationen</string>
+    <string name="vibration_desc">Vibrationsalarme bei Erkennung</string>
+    <string name="sound_label">Akustische Alarme</string>
+    <string name="sound_desc">Piepton bei naher Erkennung</string>
+    <string name="night_mode_label">Nachtmodus</string>
+    <string name="night_mode_desc">Dunkles Thema f&#252;r n&#228;chtliche Nutzung</string>
+    <string name="onboarding_next">Weiter</string>
+    <string name="onboarding_start">Starten</string>
+    <string name="onboarding_skip">&#220;berspringen</string>
+    <string name="onboarding_title_1">App im Standby</string>
+    <string name="onboarding_desc_1">Die App ist im Standby, wenn das Telefon in der Tasche ist. Die Kamera ist aus. Sie wird fortgesetzt, wenn Sie das Telefon herausnehmen und es nach vorne zeigt.</string>
+    <string name="onboarding_title_2">Wachsamkeitsassistenz</string>
+    <string name="onboarding_desc_2">Diese App hilft Ihnen, potenzielle Gefahren vor Ihnen beim Gehen zu erkennen. Sie dient nur als Wachsamkeitshilfe und ersetzt nicht Ihre Aufmerksamkeit.</string>
+    <string name="onboarding_title_3">Bereit zum Starten!</string>
+    <string name="onboarding_desc_3">Aktivieren Sie die &#220;berwachung mit der Augentaste auf dem Hauptbildschirm. Bleiben Sie immer aufmerksam und achten Sie auf Ihren Weg.</string>
+    <string name="desc_onboarding_image">Erkl&#228;rendes Bild der Bedienungsanleitung</string>
+    <string name="privacy_options_button">Werbe-Datenschutzeinstellungen</string>
+    <string name="privacy_options_updated">Datenschutzeinstellungen aktualisiert</string>
+    <string name="privacy_options_unavailable">Datenschutzoptionen derzeit nicht verf&#252;gbar</string>
+    <string name="app_description_button">Bedienungsanleitung</string>
+    <string name="app_description_title">App-Beschreibung - Weltblick</string>
+    <string name="app_description_content">Weltblick ist eine Fu&#223;g&#228;nger-Assistenz-App.</string>
+    <string name="app_description_open_privacy">Datenschutzrichtlinie anzeigen</string>
     <string name="privacy_title">Weltblick</string>
     <string name="privacy_subtitle">Ihr diskreter Bodyguard</string>
-    <string name="privacy_section_title">🔒 Ihre Privatsphäre geschützt</string>
-    <string name="privacy_guarantees">✅  100%% Verarbeitung auf Ihrem Telefon\n✅  Keine Bilder gespeichert oder übertragen\n✅  Kein Konto erforderlich\n✅  Keine persönlichen Daten gesammelt\n✅  Funktioniert offline</string>
-    <string name="permissions_title">📋 Angeforderte Berechtigungen</string>
-    <string name="permissions_list">📷  Kamera: Personen/Tiere erkennen (Bilder werden nie gespeichert)\n📡  Overlay: Radar-HUD anzeigen\n📳  Vibration: Näherungsalarme</string>
+    <string name="privacy_section_title">Ihre Privatsph&#228;re gesch&#252;tzt</string>
+    <string name="privacy_guarantees">100%% Verarbeitung auf Ihrem Telefon\nKeine Bilder gespeichert oder &#252;bertragen\nKein Konto erforderlich\nKeine pers&#246;nlichen Daten gesammelt\nFunktioniert offline</string>
+    <string name="permissions_title">Angeforderte Berechtigungen</string>
+    <string name="permissions_list">Kamera: Personen/Tiere erkennen\nOverlay: Radar-HUD anzeigen\nVibration: N&#228;herungsalarme</string>
     <string name="accept_button">Verstanden und fortfahren</string>
     <string name="privacy_policy_link">Datenschutzrichtlinie</string>
-    
-    <!-- Accessibility Section -->
-    <string name="accessibility_title">♿ Barrierefreie App</string>
-    <string name="accessibility_text">✅ TalkBack-kompatibel (Bildschirmleser)\n✅ Vibrationsalarme für Gehörlose\n✅ Akustische Alarme für Blinde\n✅ Kontrastfarben für Farbenblinde</string>
-    
-    <!-- Notifications -->
-    <string name="service_channel_name">Überwachungsdienst</string>
-    <string name="service_channel_desc">Diskrete Benachrichtigung bei aktiver Überwachung</string>
-    <string name="alert_channel_name">Näherungsalarme</string>
-    <string name="alert_channel_desc">Alarme wenn sich jemand zu nah kommt</string>
-    <string name="notification_title">👁️ Weltblick</string>
-    <string name="status_phone_idle">📋 Telefon abgelegt - Standby</string>
-    <string name="status_camera_detection">👀 Kamera aktiv - Erkennung!</string>
-    <string name="status_walking_detection">👀 Unterwegs - Aktive Erkennung</string>
-    <string name="status_camera_clear">👁️ Kamera aktiv - Alles klar</string>
-    <string name="status_walking_clear">🚶 Unterwegs - Frei (nichts in der Nähe)</string>
+    <string name="accessibility_title">Barrierefreie App</string>
+    <string name="accessibility_text">TalkBack-kompatibel\nVibrationsalarme f&#252;r Geh&#246;rlose\nAkustische Alarme f&#252;r Blinde\nKontrastfarben f&#252;r Farbenblinde</string>
+    <string name="service_channel_name">&#220;berwachungsdienst</string>
+    <string name="alert_channel_name">N&#228;herungsalarme</string>
+    <string name="notification_title">Weltblick</string>
     <string name="stop_action">Stoppen</string>
-    <string name="alert_rapid">%1$s ⚡ SCHNELLE ANNÄHERUNG!</string>
-    <string name="alert_danger">%1$s 🔴 GEFAHR: %2$s sehr nah!</string>
-    <string name="alert_warning">%1$s 🟠 WARNUNG: %2$s nähert sich</string>
+    <string name="alert_rapid">%1$s SCHNELLE ANN&#196;HERUNG!</string>
+    <string name="alert_danger">%1$s GEFAHR: %2$s sehr nah!</string>
+    <string name="alert_warning">%1$s WARNUNG: %2$s n&#228;hert sich</string>
     <string name="alert_message" formatted="false">%s (%.2fm) - Entfernung: %.1f m</string>
-    
-    <!-- Object Types -->
     <string name="object_adult">Erwachsener</string>
     <string name="object_child">Kind</string>
     <string name="object_baby">Baby</string>
     <string name="object_small_dog">Kleiner Hund</string>
     <string name="object_medium_dog">Mittlerer Hund</string>
-    <string name="object_large_dog">Großer Hund</string>
-    
-    <!-- Badges -->
-    <string name="badge_first_alert">🥉 Erster Blick — 1. Warnung vermieden</string>
-    <string name="badge_danger_zone">🥈 Gefahrenzone — 20 Gefahrenwarnungen</string>
-    <string name="badge_centurion">🏅 Zenturio — 100 Gefahrenwarnungen</string>
-    <string name="badge_guardian">🥇 Straßenwächter — 100 Punkte</string>
-    <string name="badge_expert_500">💎 Experte — 500 Punkte</string>
-    <string name="badge_always_aware">👁️ Wachsamer Meister — 1000 Punkte</string>
-    <string name="badge_speedster">⚡ Speedster — 1. schnelle Annäherung</string>
-    <string name="badge_speedster_10">🌩️ Blitz — 10 schnelle Annäherungen</string>
-    <string name="badge_streak_5">🔥 In Flammen — 5 aufeinanderfolgende Tage</string>
-    <string name="badge_streak_30">💪 Eiserner Wille — 30 Tage hintereinander</string>
-    <string name="badge_protecteur">👶 Beschützer — 10 Kinder/Babys erkannt</string>
-    <string name="badge_ami_betes">🐾 Tierfreund — 10 Tiere erkannt</string>
-    
-    <!-- Levels -->
-    <string name="level_1">🌱 Anfänger</string>
-    <string name="level_2">🚶 Fortgeschritten</string>
-    <string name="level_3">👁️ Bestätigt</string>
-    <string name="level_4">⚡ Experte</string>
-    <string name="level_5">🏆 Meister</string>
-    
-    <!-- Permissions -->
-    <string name="permission_dialog_title">📡 Erforderliche Berechtigungen</string>
-    <string name="permission_dialog_message">Um das Radar-HUD anzuzeigen und echte Kameraerkennung zu nutzen, benötigt die App 2 Berechtigungen.\n\n👁️ Bildschirm-Overlay: für Radar\n📷 Kamera: echte Erkennung auf dem Gerät (keine Daten übertragen)</string>
-    <string name="permission_overlay_button">Overlay erlauben</string>
-    <string name="permission_later">Später</string>
-    <string name="camera_granted">📷 Kamera erlaubt - Echte Erkennung aktiviert!</string>
-    <string name="camera_denied">⚠️ Simulationsmodus (keine Kamera)</string>
+    <string name="object_large_dog">Gro&#223;er Hund</string>
+    <string name="permission_dialog_title">Radar HUD (optional)</string>
+    <string name="permission_dialog_message">Visuelles Radar aktivieren?\n\nDiese Berechtigung ist OPTIONAL.\nDie App funktioniert auch ohne.</string>
+    <string name="permission_overlay_button">Radar aktivieren</string>
+    <string name="permission_later">Nein danke</string>
+    <string name="overlay_optional_message">OK! Die App funktioniert nur mit Vibrations- und Tonalarmen.</string>
+    <string name="camera_granted">Kamera erlaubt - Echte Erkennung aktiviert!</string>
+    <string name="camera_denied">Simulationsmodus (keine Kamera)</string>
     <string name="overlay_granted">Radar-HUD aktiviert!</string>
-    
-    <!-- Language selector -->
-    <string name="language_button_desc">Sprache ändern</string>
-    <string name="language_dialog_title">🌍 Sprache wählen</string>
-    <string name="language_fr">🇫🇷 Français</string>
-    <string name="language_en">🇬🇧 English</string>
-    <string name="language_es">🇪🇸 Español</string>
-    <string name="language_de">🇩🇪 Deutsch</string>
-    <string name="language_it">🇮🇹 Italiano</string>
-    <string name="language_he">🇮🇱 עברית</string>
-    <string name="language_ar">🇸🇦 العربية</string>
-    
-    <!-- Accessibility descriptions for TalkBack -->
+    <string name="language_button_desc">Sprache &#228;ndern</string>
+    <string name="language_dialog_title">Sprache w&#228;hlen</string>
     <string name="desc_app_logo">Weltblick App-Logo</string>
-    <string name="desc_stats_card">Karte mit Ihren Punkten und Warnungsstatistiken</string>
-    <string name="desc_badges_card">Karte mit Ihren freigeschalteten Abzeichen</string>
-    <string name="desc_refresh_button">Schaltfläche zum Aktualisieren der Statistiken</string>
-    <string name="desc_language_button">Schaltfläche zum Ändern der App-Sprache</string>
-    <string name="desc_accept_button">Schaltfläche zum Akzeptieren und Fortfahren</string>
-    
-    <!-- Radar -->
+    <string name="desc_language_button">Schaltfl&#228;che zum &#196;ndern der App-Sprache</string>
+    <string name="desc_accept_button">Schaltfl&#228;che zum Akzeptieren und Fortfahren</string>
+    <string name="desc_privacy_options_button">Schaltfl&#228;che zum &#196;ndern der Werbe-Datenschutzeinstellungen</string>
+    <string name="desc_app_description_button">Schaltfl&#228;che zum Anzeigen der Bedienungsanleitung</string>
     <string name="radar_you">SIE</string>
-    <string name="radar_distance_2m">2m</string>
-    <string name="radar_distance_5m">5m</string>
-    <string name="radar_distance_10m">10m</string>
-    
-    <!-- Demo mode -->
     <string name="mode_demo">Demo-Modus</string>
-    <string name="stop_demo">Demo stoppen</string>
-    <string name="camera_mode">Kamera-Modus</string>
     <string name="distance_label">Entfernung: --</string>
 </resources>

@@ -205,11 +205,20 @@ L'interface utilise un **système multi-modal** :
 2. Trouvez la tuile **👁️ Regards au monde**
 3. Appuyez dessus pour activer/désactiver
 
-**Première utilisation des Quick Settings** :
-1. Balayez vers le bas
-2. Appuyez sur l'icône ✏️ (modifier)
-3. Faites glisser "Regards au monde" dans les tuiles actives
-4. Validez
+**Première utilisation — Ajouter la tuile dans les Quick Settings** :
+
+> ⚠️ La tuile n'apparaît pas automatiquement. Vous devez l'ajouter manuellement la première fois.
+
+1. **Ouvrez les Quick Settings** : Balayez vers le bas depuis le haut de l'écran **deux fois** pour afficher le volet complet des raccourcis rapides
+2. **Entrez en mode édition** : Appuyez sur l'icône **✏️ crayon** (en bas à gauche ou à droite du volet, selon votre téléphone) — c'est le bouton qui permet d'**organiser et personnaliser les volets**
+3. **Trouvez la tuile de l'application** : Dans la fenêtre d'édition, faites défiler la liste des **raccourcis disponibles** (section du bas, souvent intitulée "Maintenez et faites glisser pour ajouter des tuiles")
+4. **Repérez "Regards au monde"** : Cherchez l'icône **👁️ Regards au monde** parmi les tuiles disponibles non encore ajoutées
+5. **Ajoutez la tuile** : Maintenez appuyé sur la tuile **"Regards au monde"** et **faites-la glisser** vers le haut, dans la zone des tuiles actives (là où se trouvent WiFi, Bluetooth, etc.)
+6. **Validez** : Appuyez sur **"OK"** ou la flèche retour pour confirmer — la tuile est maintenant accessible directement dans vos Quick Settings !
+
+> 💡 **Astuce** : Placez la tuile en première position pour y accéder encore plus rapidement.
+>
+> 💡 **Note** : Sur certains téléphones (Samsung, Xiaomi...), le bouton d'édition peut être représenté par **trois points ⋮** ou un bouton **"Modifier"** au lieu du crayon ✏️.
 
 ### Indicateurs visuels
 

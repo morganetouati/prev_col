@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import androidx.core.content.ContextCompat
 
 /**
  * Quick Settings Tile pour activer/désactiver la surveillance
@@ -34,7 +35,7 @@ class DetectionTileService : TileService() {
             // Démarrer le service
             val startIntent = Intent(this, DetectionService::class.java)
             startIntent.action = DetectionService.ACTION_START
-            startService(startIntent)
+            ContextCompat.startForegroundService(this, startIntent)
             
             tile.state = Tile.STATE_ACTIVE
             tile.label = "Surveillance ON"

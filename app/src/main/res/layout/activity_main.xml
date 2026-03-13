@@ -1,229 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/primary"
     tools:context=".MainActivity">
 
-    <ScrollView
+    <!-- Fond d'écran -->
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:src="@drawable/fond"
+        android:scaleType="centerCrop"
+        android:importantForAccessibility="no" />
 
-        <LinearLayout
+    <!-- Overlay semi-transparent pour lisibilité -->
+    <View
+        android:id="@+id/overlayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay_screen" />
+
+    <!-- Contenu principal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_main">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
 
-            <!-- Language Button (Flag) -->
-            <Button
-                android:id="@+id/languageButton"
-                android:layout_width="@dimen/language_button_size"
-                android:layout_height="@dimen/language_button_size"
-                android:layout_gravity="end"
-                android:text="\uD83C\uDDEB\uD83C\uDDF7"
-                android:textSize="@dimen/text_title"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/desc_language_button"
-                android:importantForAccessibility="yes" />
-
-            <!-- Header avec logo distinctif -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/page_padding">
+                android:padding="@dimen/padding_main"
+                android:gravity="center_horizontal">
 
-                <!-- Logo carré gradient + œil vectoriel -->
-                <FrameLayout
-                    android:layout_width="@dimen/big_icon_size"
-                    android:layout_height="@dimen/big_icon_size"
-                    android:layout_marginBottom="@dimen/page_padding">
+                <!-- Barre du haut : Réglages (gauche) + Langue (droite) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageButton
+                        android:id="@+id/settingsButton"
+                        android:layout_width="@dimen/language_button_size"
+                        android:layout_height="@dimen/language_button_size"
+                        android:src="@drawable/ic_settings"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/settings_title"
+                        android:padding="10dp"
+                        android:importantForAccessibility="yes" />
+
                     <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/languageButton"
+                        android:layout_width="@dimen/language_button_size"
+                        android:layout_height="@dimen/language_button_size"
+                        android:text="\uD83C\uDDEB\uD83C\uDDF7"
+                        android:textSize="@dimen/text_title"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/desc_language_button"
+                        android:importantForAccessibility="yes" />
+                </LinearLayout>
+
+                <!-- Header avec logo -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_16">
+
+                    <!-- Logo carré gradient + œil vectoriel -->
+                    <FrameLayout
+                        android:layout_width="@dimen/big_icon_size"
+                        android:layout_height="@dimen/big_icon_size"
+                        android:layout_marginBottom="@dimen/margin_16">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_gradient_button" />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_eye_logo"
+                            android:scaleType="centerInside"
+                            android:padding="12dp"
+                            android:contentDescription="@string/desc_app_logo"
+                            android:importantForAccessibility="yes" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/headerTitle"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_gradient_button" />
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_eye_logo"
-                        android:scaleType="centerInside"
-                        android:padding="12dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_title"
+                        android:textSize="@dimen/text_title"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:gravity="center"
+                        android:letterSpacing="0.05"
                         android:contentDescription="@string/desc_app_logo"
                         android:importantForAccessibility="yes" />
-                </FrameLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_subtitle"
+                        android:textSize="@dimen/text_subtitle"
+                        android:textColor="@color/text_secondary"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/margin_xsmall" />
+                </LinearLayout>
+
+                <!-- Info tile -->
                 <TextView
-                    android:id="@+id/headerTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_title"
-                    android:textSize="@dimen/text_title"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:text="@string/quick_settings_hint"
+                    android:textSize="@dimen/text_hint"
+                    android:textColor="@color/text_hint"
                     android:gravity="center"
-                    android:letterSpacing="0.05"
-                    android:contentDescription="@string/desc_app_logo"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:paddingHorizontal="@dimen/padding_small" />
+
+                <!-- ===== BOUTON ŒIL TOGGLE ===== -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_main"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:background="@drawable/bg_card">
+
+                    <ImageButton
+                        android:id="@+id/eyeToggleButton"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        android:src="@drawable/ic_eye_inactive"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="@string/desc_eye_toggle"
+                        android:importantForAccessibility="yes"
+                        android:layout_marginBottom="@dimen/margin_16" />
+
+                    <TextView
+                        android:id="@+id/statusText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/surveillance_inactive"
+                        android:textSize="@dimen/text_section_title"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_hint"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <!-- Boutons secondaires -->
+                <Button
+                    android:id="@+id/privacyOptionsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height_small"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/privacy_options_button"
+                    android:textSize="@dimen/text_button_small"
+                    android:textColor="@color/text_primary"
+                    android:background="@drawable/bg_card"
+                    android:contentDescription="@string/desc_privacy_options_button"
                     android:importantForAccessibility="yes" />
 
-                <TextView
+                <Button
+                    android:id="@+id/appDescriptionButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_subtitle"
-                    android:textSize="@dimen/text_subtitle"
-                    android:textColor="@color/text_secondary"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/margin_xsmall" />
-
-            </LinearLayout>
-
-            <!-- Info tile -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/quick_settings_hint"
-                android:textSize="@dimen/text_hint"
-                android:textColor="@color/text_hint"
-                android:gravity="center"
-                android:layout_marginBottom="@dimen/page_padding"
-                android:paddingHorizontal="@dimen/padding_small" />
-
-            <!-- Stats Card - Style glassmorphism -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_main"
-                android:layout_marginBottom="@dimen/margin_16"
-                android:background="@drawable/bg_card"
-                android:contentDescription="@string/desc_stats_card"
-                android:importantForAccessibility="yes">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stats_title"
-                    android:textSize="@dimen/text_section_title"
-                    android:textStyle="bold"
+                    android:layout_height="@dimen/button_height_small"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:text="@string/app_description_button"
+                    android:textSize="@dimen/text_button_small"
                     android:textColor="@color/text_primary"
-                    android:layout_marginBottom="@dimen/margin_16" />
-
-                <TextView
-                    android:id="@+id/totalPointsText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="\uD83C\uDFAF Points: 0"
-                    android:textSize="@dimen/text_stats"
-                    android:textColor="@color/accent"
-                    android:layout_marginBottom="@dimen/margin_tiny" />
-
-                <TextView
-                    android:id="@+id/totalAlertsText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="\u26A0\uFE0F Alertes \u00e9vit\u00e9es: 0"
-                    android:textSize="@dimen/text_stats"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginBottom="@dimen/margin_tiny" />
-
-                <TextView
-                    android:id="@+id/rapidApproachText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="\u26A1 Approches rapides: 0"
-                    android:textSize="@dimen/text_stats"
-                    android:textColor="@color/text_secondary" />
+                    android:background="@drawable/bg_card"
+                    android:contentDescription="@string/desc_app_description_button"
+                    android:importantForAccessibility="yes" />
 
             </LinearLayout>
 
-            <!-- Badges Card -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_main"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:background="@drawable/bg_card"
-                android:contentDescription="@string/desc_badges_card"
-                android:importantForAccessibility="yes">
+        </ScrollView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/badges_title"
-                    android:textSize="@dimen/text_section_title"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_primary"
-                    android:layout_marginBottom="@dimen/margin_16" />
+        <!-- Bannière publicitaire adaptative en bas -->
+        <FrameLayout
+            android:id="@+id/adContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
-                <TextView
-                    android:id="@+id/badgesText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_badges"
-                    android:textSize="@dimen/text_badge"
-                    android:textColor="@color/text_hint"
-                    android:lineSpacingExtra="@dimen/line_spacing_small" />
+    </LinearLayout>
 
-            </LinearLayout>
-
-            <!-- Bouton Actualiser avec gradient -->
-            <Button
-                android:id="@+id/refreshButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:text="@string/refresh_button"
-                android:textSize="@dimen/text_button"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:background="@drawable/bg_button_primary"
-                android:elevation="@dimen/elevation_card"
-                android:letterSpacing="0.05"
-                android:contentDescription="@string/desc_refresh_button"
-                android:importantForAccessibility="yes" />
-
-            <Button
-                android:id="@+id/privacyOptionsButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height_small"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/privacy_options_button"
-                android:textSize="@dimen/text_button_small"
-                android:textColor="@color/text_primary"
-                android:background="@drawable/bg_card"
-                android:contentDescription="@string/desc_privacy_options_button"
-                android:importantForAccessibility="yes" />
-
-            <Button
-                android:id="@+id/appDescriptionButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height_small"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:text="@string/app_description_button"
-                android:textSize="@dimen/text_button_small"
-                android:textColor="@color/text_primary"
-                android:background="@drawable/bg_card"
-                android:contentDescription="@string/desc_app_description_button"
-                android:importantForAccessibility="yes" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <!-- Bannière publicitaire adaptative en bas -->
-    <FrameLayout
-        android:id="@+id/adContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-</LinearLayout>
+</FrameLayout>
 
 

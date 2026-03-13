@@ -1,121 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App name -->
     <string name="app_name">Sguardo al mondo</string>
-    
-    <!-- Main Activity -->
-    <string name="app_title">👁️ Sguardo al mondo</string>
-    <string name="app_subtitle">Le tue statistiche e badge</string>
-    <string name="quick_settings_hint">💡 Attiva la sorveglianza dalle Impostazioni rapide (icona 👁️)</string>
-    <string name="stats_title">📊 Statistiche</string>
-    <string name="points_label">🎯 Punti: %1$d | %2$s</string>
-    <string name="alerts_label">⚠️ Avvisi evitati: %d</string>
-    <string name="rapid_label">⚡ Avvicinamenti rapidi: %d</string>
-    <string name="streak_label">🔥 Serie: %d giorni</string>
-    <string name="next_level_label">➡️ %d punti al prossimo livello</string>
-    <string name="badges_title">🏆 Badge</string>
-    <string name="no_badges">Nessun badge sbloccato</string>
-    <string name="badges_unlocked">badge sbloccati</string>
-    <string name="refresh_button">🔄 Aggiorna</string>
-    <string name="stats_refreshed">Statistiche aggiornate!</string>
-    
-    <!-- Privacy Activity -->
+    <string name="app_title">Sguardo al mondo</string>
+    <string name="app_subtitle">Il tuo assistente di vigilanza pedonale</string>
+    <string name="quick_settings_hint">Tocca l&#8217;occhio per attivare/disattivare la sorveglianza</string>
+    <string name="surveillance_active">Sorveglianza attivata</string>
+    <string name="surveillance_inactive">Sorveglianza disattivata</string>
+    <string name="desc_eye_toggle">Pulsante per attivare o disattivare la sorveglianza</string>
+    <string name="settings_title">Impostazioni</string>
+    <string name="settings_back">Indietro</string>
+    <string name="vibration_label">Vibrazioni</string>
+    <string name="vibration_desc">Avvisi per vibrazione al rilevamento</string>
+    <string name="sound_label">Avvisi sonori</string>
+    <string name="sound_desc">Bip sonoro al rilevamento ravvicinato</string>
+    <string name="night_mode_label">Modalit&#224; notte</string>
+    <string name="night_mode_desc">Tema scuro per uso notturno</string>
+    <string name="onboarding_next">Avanti</string>
+    <string name="onboarding_start">Inizia</string>
+    <string name="onboarding_skip">Salta</string>
+    <string name="onboarding_title_1">App in standby</string>
+    <string name="onboarding_desc_1">L&#8217;app &#232; in standby quando il telefono &#232; in tasca. La fotocamera &#232; spenta. Riprende quando tiri fuori il telefono e lo punti in avanti.</string>
+    <string name="onboarding_title_2">Assistenza alla vigilanza</string>
+    <string name="onboarding_desc_2">Questa app ti aiuta a individuare potenziali pericoli davanti a te mentre cammini. Agisce solo come aiuto alla vigilanza e non sostituisce la tua attenzione.</string>
+    <string name="onboarding_title_3">Pronto per iniziare!</string>
+    <string name="onboarding_desc_3">Attiva la sorveglianza con il pulsante occhio sulla schermata principale. Resta sempre attento all&#8217;ambiente circostante e guarda dove vai.</string>
+    <string name="desc_onboarding_image">Immagine esplicativa della guida all&#8217;uso</string>
+    <string name="privacy_options_button">Impostazioni privacy annunci</string>
+    <string name="privacy_options_updated">Preferenze privacy aggiornate</string>
+    <string name="privacy_options_unavailable">Opzioni privacy non disponibili al momento</string>
+    <string name="app_description_button">Guida all&#8217;uso</string>
+    <string name="app_description_title">Descrizione app - Sguardo al mondo</string>
+    <string name="app_description_content">Sguardo al mondo &#232; un&#8217;app di assistenza pedonale.</string>
+    <string name="app_description_open_privacy">Vedi informativa sulla privacy</string>
     <string name="privacy_title">Sguardo al mondo</string>
     <string name="privacy_subtitle">La tua guardia del corpo discreta</string>
-    <string name="privacy_section_title">🔒 La tua privacy protetta</string>
-    <string name="privacy_guarantees">✅  Elaborazione 100%% sul tuo telefono\n✅  Nessuna immagine memorizzata o trasmessa\n✅  Nessun account richiesto\n✅  Nessun dato personale raccolto\n✅  Funziona offline</string>
-    <string name="permissions_title">📋 Permessi richiesti</string>
-    <string name="permissions_list">📷  Fotocamera: rileva persone/animali (immagini mai salvate)\n📡  Sovrapposizione: mostra radar HUD\n📳  Vibrazione: avvisi di prossimità</string>
+    <string name="privacy_section_title">La tua privacy protetta</string>
+    <string name="privacy_guarantees">Elaborazione 100%% sul tuo telefono\nNessuna immagine memorizzata o trasmessa\nNessun account richiesto\nNessun dato personale raccolto\nFunziona offline</string>
+    <string name="permissions_title">Permessi richiesti</string>
+    <string name="permissions_list">Fotocamera: rileva persone/animali\nSovrapposizione: mostra radar HUD\nVibrazione: avvisi di prossimit&#224;</string>
     <string name="accept_button">Capito e continua</string>
     <string name="privacy_policy_link">Informativa sulla privacy</string>
-    
-    <!-- Accessibility Section -->
-    <string name="accessibility_title">♿ App accessibile</string>
-    <string name="accessibility_text">✅ Compatibile con TalkBack (lettore schermo)\n✅ Avvisi vibranti per sordi\n✅ Avvisi sonori per ciechi\n✅ Colori contrastati per daltonici</string>
-    
-    <!-- Notifications -->
+    <string name="accessibility_title">App accessibile</string>
+    <string name="accessibility_text">Compatibile con TalkBack\nAvvisi vibranti per sordi\nAvvisi sonori per ciechi\nColori contrastati per daltonici</string>
     <string name="service_channel_name">Servizio di sorveglianza</string>
-    <string name="service_channel_desc">Notifica discreta per indicare sorveglianza attiva</string>
-    <string name="alert_channel_name">Avvisi di prossimità</string>
-    <string name="alert_channel_desc">Avvisi quando qualcuno si avvicina troppo</string>
-    <string name="notification_title">👁️ Sguardo al mondo</string>
-    <string name="status_phone_idle">📋 Telefono fermo - In attesa</string>
-    <string name="status_camera_detection">👀 Fotocamera attiva - Rilevamento!</string>
-    <string name="status_walking_detection">👀 Camminando - Rilevamento attivo</string>
-    <string name="status_camera_clear">👁️ Fotocamera attiva - Tutto ok</string>
-    <string name="status_walking_clear">🚶 Camminando - Libero (nulla intorno)</string>
+    <string name="alert_channel_name">Avvisi di prossimit&#224;</string>
+    <string name="notification_title">Sguardo al mondo</string>
     <string name="stop_action">Ferma</string>
-    <string name="alert_rapid">%1$s ⚡ AVVICINAMENTO RAPIDO!</string>
-    <string name="alert_danger">%1$s 🔴 PERICOLO: %2$s molto vicino!</string>
-    <string name="alert_warning">%1$s 🟠 AVVISO: %2$s si avvicina</string>
+    <string name="alert_rapid">%1$s AVVICINAMENTO RAPIDO!</string>
+    <string name="alert_danger">%1$s PERICOLO: %2$s molto vicino!</string>
+    <string name="alert_warning">%1$s AVVISO: %2$s si avvicina</string>
     <string name="alert_message" formatted="false">%s (%.2fm) - Distanza: %.1f m</string>
-    
-    <!-- Object Types -->
     <string name="object_adult">Adulto</string>
     <string name="object_child">Bambino</string>
     <string name="object_baby">Neonato</string>
     <string name="object_small_dog">Cane piccolo</string>
     <string name="object_medium_dog">Cane medio</string>
     <string name="object_large_dog">Cane grande</string>
-    
-    <!-- Badges -->
-    <string name="badge_first_alert">🥉 Primo Sguardo — 1° avviso evitato</string>
-    <string name="badge_danger_zone">🥈 Zona Pericolosa — 20 avvisi pericolo</string>
-    <string name="badge_centurion">🏅 Centurione — 100 avvisi pericolo</string>
-    <string name="badge_guardian">🥇 Guardiano della Strada — 100 punti</string>
-    <string name="badge_expert_500">💎 Esperto — 500 punti</string>
-    <string name="badge_always_aware">👁️ Maestro Vigilante — 1000 punti</string>
-    <string name="badge_speedster">⚡ Speedster — 1° avvicinamento rapido</string>
-    <string name="badge_speedster_10">🌩️ Fulmine — 10 avvicinamenti rapidi</string>
-    <string name="badge_streak_5">🔥 In fiamme — 5 giorni consecutivi</string>
-    <string name="badge_streak_30">💪 Volontà di Ferro — 30 giorni di fila</string>
-    <string name="badge_protecteur">👶 Protettore — 10 bambini/neonati rilevati</string>
-    <string name="badge_ami_betes">🐾 Amico degli animali — 10 animali rilevati</string>
-    
-    <!-- Levels -->
-    <string name="level_1">🌱 Principiante</string>
-    <string name="level_2">🚶 Intermedio</string>
-    <string name="level_3">👁️ Confermato</string>
-    <string name="level_4">⚡ Esperto</string>
-    <string name="level_5">🏆 Maestro</string>
-    
-    <!-- Permissions -->
-    <string name="permission_dialog_title">📡 Permessi richiesti</string>
-    <string name="permission_dialog_message">Per visualizzare il radar HUD e usare il rilevamento camera reale, l\'app necessita di 2 permessi.\n\n👁️ Sovrapposizione schermo: per radar\n📷 Fotocamera: rilevamento reale sul dispositivo (nessun dato trasmesso)</string>
-    <string name="permission_overlay_button">Consenti sovrapposizione</string>
-    <string name="permission_later">Più tardi</string>
-    <string name="camera_granted">📷 Fotocamera consentita - Rilevamento reale attivato!</string>
-    <string name="camera_denied">⚠️ Modalità simulazione (senza fotocamera)</string>
+    <string name="permission_dialog_title">Radar HUD (opzionale)</string>
+    <string name="permission_dialog_message">Attivare il radar visuale?\n\nQuesto permesso &#232; OPZIONALE.\nL&#8217;app funziona anche senza.</string>
+    <string name="permission_overlay_button">Attiva radar</string>
+    <string name="permission_later">No grazie</string>
+    <string name="overlay_optional_message">OK! L&#8217;app funziona solo con avvisi vibrazione e suono.</string>
+    <string name="camera_granted">Fotocamera consentita - Rilevamento reale attivato!</string>
+    <string name="camera_denied">Modalit&#224; simulazione (senza fotocamera)</string>
     <string name="overlay_granted">Radar HUD attivato!</string>
-    
-    <!-- Language selector -->
     <string name="language_button_desc">Cambia lingua</string>
-    <string name="language_dialog_title">🌍 Scegli lingua</string>
-    <string name="language_fr">🇫🇷 Français</string>
-    <string name="language_en">🇬🇧 English</string>
-    <string name="language_es">🇪🇸 Español</string>
-    <string name="language_de">🇩🇪 Deutsch</string>
-    <string name="language_it">🇮🇹 Italiano</string>
-    <string name="language_he">🇮🇱 עברית</string>
-    <string name="language_ar">🇸🇦 العربية</string>
-    
-    <!-- Accessibility descriptions for TalkBack -->
-    <string name="desc_app_logo">Logo dell\'app Sguardo al mondo</string>
-    <string name="desc_stats_card">Scheda con le statistiche di punti e avvisi</string>
-    <string name="desc_badges_card">Scheda con i tuoi badge sbloccati</string>
-    <string name="desc_refresh_button">Pulsante per aggiornare le statistiche</string>
-    <string name="desc_language_button">Pulsante per cambiare la lingua dell\'app</string>
-    <string name="desc_accept_button">Pulsante per accettare e continuare all\'app</string>
-    
-    <!-- Radar -->
+    <string name="language_dialog_title">Scegli lingua</string>
+    <string name="desc_app_logo">Logo dell&#8217;app Sguardo al mondo</string>
+    <string name="desc_language_button">Pulsante per cambiare la lingua dell&#8217;app</string>
+    <string name="desc_accept_button">Pulsante per accettare e continuare</string>
+    <string name="desc_privacy_options_button">Pulsante per modificare le preferenze privacy annunci</string>
+    <string name="desc_app_description_button">Pulsante per visualizzare la guida all&#8217;uso</string>
     <string name="radar_you">TU</string>
-    <string name="radar_distance_2m">2m</string>
-    <string name="radar_distance_5m">5m</string>
-    <string name="radar_distance_10m">10m</string>
-    
-    <!-- Demo mode -->
-    <string name="mode_demo">Modalità Demo</string>
-    <string name="stop_demo">Ferma Demo</string>
-    <string name="camera_mode">Modalità Fotocamera</string>
+    <string name="mode_demo">Modalit&#224; Demo</string>
     <string name="distance_label">Distanza: --</string>
 </resources>

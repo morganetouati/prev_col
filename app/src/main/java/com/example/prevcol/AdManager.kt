@@ -166,11 +166,9 @@ object AdManager {
      * Calcule la taille de bannière adaptative basée sur la largeur d'écran
      */
     private fun getAdaptiveBannerSize(activity: Activity): AdSize {
-        val display = activity.windowManager.defaultDisplay
-        val outMetrics = DisplayMetrics()
-        display.getMetrics(outMetrics)
-        val widthPixels = outMetrics.widthPixels.toFloat()
-        val density = outMetrics.density
+        val displayMetrics = activity.resources.displayMetrics
+        val widthPixels = displayMetrics.widthPixels.toFloat()
+        val density = displayMetrics.density
         val adWidth = (widthPixels / density).toInt()
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
     }

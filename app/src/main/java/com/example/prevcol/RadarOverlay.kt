@@ -80,6 +80,11 @@ class RadarOverlay(private val context: Context) {
         } catch (e: Exception) { e.printStackTrace() }
     }
 
+    fun clearDetections() {
+        detectedObjects.clear()
+        radarView?.updateObjects(emptyList())
+    }
+
     fun updateDetections(distance: Float, angle: Float, objectType: ObjectType, height: Float, direction: DemoDetectionSimulator.MovementDirection) {
         detectedObjects.clear()
         detectedObjects.add(DetectedObject(objectType, distance, angle, height, direction))

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+    <!-- Œil extérieur - forme d'amande blanche -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M32,16 C16,16 6,32 6,32 C6,32 16,48 32,48 C48,48 58,32 58,32 C58,32 48,16 32,16 Z" />
+
+    <!-- Cercle iris - sombre -->
+    <path
+        android:fillColor="#1A1B2E"
+        android:pathData="M32,22 C26.5,22 22,26.5 22,32 C22,37.5 26.5,42 32,42 C37.5,42 42,37.5 42,32 C42,26.5 37.5,22 32,22 Z" />
+
+    <!-- Pupille centrale - verte (activé) -->
+    <path
+        android:fillColor="#2ED573"
+        android:pathData="M32,27 C29.2,27 27,29.2 27,32 C27,34.8 29.2,37 32,37 C34.8,37 37,34.8 37,32 C37,29.2 34.8,27 32,27 Z" />
+
+    <!-- Reflet de lumière - vert clair (activé) -->
+    <path
+        android:fillColor="#7BED9F"
+        android:pathData="M34.5,29.5 C33.7,29.5 33,30.2 33,31 C33,31.8 33.7,32.5 34.5,32.5 C35.3,32.5 36,31.8 36,31 C36,30.2 35.3,29.5 34.5,29.5 Z" />
+
+</vector>

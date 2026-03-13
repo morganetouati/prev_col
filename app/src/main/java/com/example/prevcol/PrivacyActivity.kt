@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 
 /**
  * Écran affiché au 1er lancement : politique de confidentialité + permissions
@@ -21,8 +22,14 @@ class PrivacyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Si déjà accepté, aller directement à MainActivity
+        // Restaurer le mode jour/nuit depuis les préférences
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val nightMode = prefs.getBoolean("night_mode", false)
+        AppCompatDelegate.setDefaultNightMode(
+            if (nightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
+        
+        // Si déjà accepté, aller directement à MainActivity
         if (prefs.getBoolean("privacy_accepted", false)) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()

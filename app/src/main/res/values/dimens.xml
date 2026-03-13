@@ -6,7 +6,7 @@
     <dimen name="big_icon_size">100dp</dimen>
     <dimen name="button_height">56dp</dimen>
     <dimen name="button_height_small">48dp</dimen>
-    <dimen name="language_button_size">52dp</dimen>
+    <dimen name="language_button_size">56dp</dimen>
     <dimen name="margin_xsmall">4dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_tiny">10dp</dimen>

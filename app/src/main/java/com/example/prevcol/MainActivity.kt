@@ -1,32 +1,47 @@
 package com.example.prevcol
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var gameStats: GameStats
     private lateinit var adContainer: FrameLayout
+    private lateinit var eyeToggleButton: ImageButton
+    private lateinit var statusText: TextView
+    private var isDetectionActive = false
+    private var isToggleInProgress = false
     
     // Apply saved language before onCreate
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(LanguageHelper.applyLanguage(newBase))
+    }
+    
+    // Receiver pour les changements d'état du service de détection
+    private val detectionStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            isToggleInProgress = false
+            if (::eyeToggleButton.isInitialized) {
+                eyeToggleButton.isEnabled = true
+            }
+            updateEyeState()
+        }
     }
     
     // Demande permission caméra
@@ -40,6 +55,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
     
+    // Demande permission notifications (API 33+)
+    private val requestNotificationPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { _ -> }
+    
     // Demande permission overlay
     private val requestOverlayLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -51,16 +71,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Restaurer le mode jour/nuit depuis les préférences
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val nightMode = prefs.getBoolean("night_mode", false)
+        AppCompatDelegate.setDefaultNightMode(
+            if (nightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
+        
         setContentView(R.layout.activity_main)
 
-        gameStats = GameStats(this)
-
         // Si l'utilisateur n'a pas encore accepté la politique de confidentialité → redirect
-        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
         if (!prefs.getBoolean("privacy_accepted", false)) {
             startActivity(Intent(this, PrivacyActivity::class.java))
             finish()
             return
+        }
+        
+        // Si premier lancement → montrer l'onboarding
+        if (!prefs.getBoolean("onboarding_seen", false)) {
+            startActivity(Intent(this, OnboardingActivity::class.java))
         }
         
         // Initialise AdMob et charge la bannière adaptative
@@ -73,20 +103,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Actualise l'affichage au démarrage
-        updateStatsDisplay()
+        // Bouton œil toggle
+        eyeToggleButton = findViewById(R.id.eyeToggleButton)
+        statusText = findViewById(R.id.statusText)
+        updateEyeState()
+        
+        eyeToggleButton.setOnClickListener {
+            toggleDetection()
+        }
+        
+        // Bouton réglages
+        findViewById<ImageButton>(R.id.settingsButton).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
         
         // Setup language button
         setupLanguageButton()
         
         // Demande permissions au premier lancement
         requestPermissionsIfNeeded()
-
-        // Bouton actualiser
-        findViewById<Button>(R.id.refreshButton).setOnClickListener {
-            updateStatsDisplay()
-            Toast.makeText(this, getString(R.string.stats_refreshed), Toast.LENGTH_SHORT).show()
-        }
 
         findViewById<Button>(R.id.privacyOptionsButton).setOnClickListener {
             AdManager.showPrivacyOptions(this) { updated ->
@@ -100,23 +135,64 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.appDescriptionButton).setOnClickListener {
-            showAppDescriptionSheet()
+            // Ouvrir l'onboarding pour revoir le mode d'emploi
+            startActivity(Intent(this, OnboardingActivity::class.java))
         }
+        
+        // Enregistrer le receiver pour les changements d'état
+        val filter = IntentFilter("com.example.prevcol.DETECTION_STATE_CHANGED")
+        ContextCompat.registerReceiver(this, detectionStateReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
     }
+    
+    private fun toggleDetection() {
+        if (isToggleInProgress) return
 
-    private fun showAppDescriptionSheet() {
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.app_description_title))
-            .setMessage(getString(R.string.app_description_content))
-            .setPositiveButton(android.R.string.ok, null)
-            .setNeutralButton(getString(R.string.app_description_open_privacy)) { _, _ ->
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://morganetouati.github.io/prev_col/privacy/")
-                )
-                startActivity(intent)
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        isDetectionActive = prefs.getBoolean("detection_active", false)
+
+        isToggleInProgress = true
+        eyeToggleButton.isEnabled = false
+
+        try {
+            if (isDetectionActive) {
+                val stopIntent = Intent(this, DetectionService::class.java).apply {
+                    action = DetectionService.ACTION_STOP
+                }
+                startService(stopIntent)
+            } else {
+                val startIntent = Intent(this, DetectionService::class.java).apply {
+                    action = DetectionService.ACTION_START
+                }
+                ContextCompat.startForegroundService(this, startIntent)
             }
-            .show()
+        } catch (_: Exception) {
+            isToggleInProgress = false
+            eyeToggleButton.isEnabled = true
+            updateEyeState()
+            Toast.makeText(this, getString(R.string.surveillance_toggle_error), Toast.LENGTH_LONG).show()
+            return
+        }
+
+        eyeToggleButton.postDelayed({
+            updateEyeState()
+            isToggleInProgress = false
+            eyeToggleButton.isEnabled = true
+        }, 900)
+    }
+    
+    private fun updateEyeState() {
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        isDetectionActive = prefs.getBoolean("detection_active", false)
+        
+        if (isDetectionActive) {
+            eyeToggleButton.setImageResource(R.drawable.ic_eye_active)
+            statusText.text = getString(R.string.surveillance_active)
+            statusText.setTextColor(ContextCompat.getColor(this, R.color.safe_green))
+        } else {
+            eyeToggleButton.setImageResource(R.drawable.ic_eye_inactive)
+            statusText.text = getString(R.string.surveillance_inactive)
+            statusText.setTextColor(ContextCompat.getColor(this, R.color.text_hint))
+        }
     }
     
     private fun setupLanguageButton() {
@@ -151,7 +227,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateStatsDisplay()
+        updateEyeState()
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        try { unregisterReceiver(detectionStateReceiver) } catch (_: Exception) {}
     }
 
     private fun requestPermissionsIfNeeded() {
@@ -159,6 +240,11 @@ class MainActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
             != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission.launch(android.Manifest.permission.CAMERA)
+        } else if (Build.VERSION.SDK_INT >= 33 &&
+            ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED) {
+            // Notifications (API 33+) — demandé après la caméra pour éviter 2 popups
+            requestNotificationPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS)
         }
         
         // Permission overlay (optionnelle - pour le radar HUD)
@@ -187,60 +273,4 @@ class MainActivity : AppCompatActivity() {
                 .show()
         }
     }
-
-    private fun updateStatsDisplay() {
-        val totalPoints = gameStats.getTotalPoints()
-        val badges = gameStats.getAllBadges()
-        val dangerAlerts = gameStats.getAlertCount("danger")
-        val rapidAlerts = gameStats.getAlertCount("rapid")
-
-        findViewById<TextView>(R.id.totalPointsText).text =
-            getString(R.string.points_label, totalPoints, gameStats.getLevelLabel())
-
-        val ptsNext = gameStats.getPointsToNextLevel()
-        findViewById<TextView>(R.id.totalAlertsText).text =
-            if (ptsNext > 0) getString(R.string.alerts_label, dangerAlerts) + "  (" + getString(R.string.next_level_label, ptsNext) + ")"
-            else getString(R.string.alerts_label, dangerAlerts) + "  🏆"
-
-        val streak = gameStats.getStreak()
-        val streakStr = if (streak > 0) "  " + getString(R.string.streak_label, streak) else ""
-        findViewById<TextView>(R.id.rapidApproachText).text =
-            getString(R.string.rapid_label, rapidAlerts) + streakStr
-
-        // Afficher tous les 12 badges (débloqués + verrouillés)
-        val badgesTextView = findViewById<TextView>(R.id.badgesText)
-        val unlockedBadges = gameStats.getAllBadges()
-        val ssb = SpannableStringBuilder()
-
-        // Titre compteur
-        val countText = "${unlockedBadges.size}/${GameStats.ALL_BADGE_IDS.size} ${getString(R.string.badges_unlocked)}\n\n"
-        ssb.append(countText)
-        val countEnd = ssb.length
-        ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.accent)), 0, countEnd, 0)
-
-        for ((index, badgeId) in GameStats.ALL_BADGE_IDS.withIndex()) {
-            val isUnlocked = unlockedBadges.contains(badgeId)
-            val description = GameStats.BADGE_DESCRIPTIONS[badgeId] ?: badgeId
-            val displayText = if (isUnlocked) {
-                "✅ $description"
-            } else {
-                "🔒 ${description.replace(Regex("^[^\\s]+"), "❓")}"
-            }
-
-            val start = ssb.length
-            ssb.append(displayText)
-            val end = ssb.length
-
-            if (!isUnlocked) {
-                ssb.setSpan(ForegroundColorSpan(Color.parseColor("#666666")), start, end, 0)
-            }
-
-            if (index < GameStats.ALL_BADGE_IDS.size - 1) {
-                ssb.append("\n\n")
-            }
-        }
-
-        badgesTextView.text = ssb
-    }
-
 }

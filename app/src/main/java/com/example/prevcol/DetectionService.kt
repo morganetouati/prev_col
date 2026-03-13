@@ -10,6 +10,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
 import android.os.SystemClock
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import android.app.NotificationChannel
@@ -31,11 +32,11 @@ import androidx.lifecycle.LifecycleRegistry
 import kotlin.math.sqrt
 
 class DetectionService : Service(), SensorEventListener {
+    private val logTag = "DetectionService"
     private val handler = Handler(Looper.getMainLooper())
     private var isRunning = false
     private val tone = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
     private lateinit var radarOverlay: RadarOverlay
-    private lateinit var gameStats: GameStats
     
     // Lifecycle pour CameraX (requis par ProcessCameraProvider.bindToLifecycle)
     private lateinit var lifecycleRegistry: LifecycleRegistry
@@ -111,12 +112,11 @@ class DetectionService : Service(), SensorEventListener {
         super.onCreate()
         // Initialise le lifecycle pour CameraX
         serviceLifecycleOwner = object : LifecycleOwner {
-            override fun getLifecycle(): Lifecycle = lifecycleRegistry
+            override val lifecycle: Lifecycle get() = lifecycleRegistry
         }
         lifecycleRegistry = LifecycleRegistry(serviceLifecycleOwner)
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
         radarOverlay = RadarOverlay(this)
-        gameStats = GameStats(this)
         createNotificationChannel()
         
         // Initialise le détecteur de mouvement et proximité
@@ -141,7 +141,7 @@ class DetectionService : Service(), SensorEventListener {
             addAction(Intent.ACTION_SCREEN_OFF)
             addAction(Intent.ACTION_USER_PRESENT)
         }
-        registerReceiver(screenStateReceiver, filter)
+        ContextCompat.registerReceiver(this, screenStateReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -181,36 +181,58 @@ class DetectionService : Service(), SensorEventListener {
 
     private fun startDetection() {
         if (isRunning) return
-        isRunning = true
+        try {
+            isRunning = true
+            getSharedPreferences("app_prefs", MODE_PRIVATE).edit().putBoolean("detection_active", true).apply()
+            sendBroadcast(Intent("com.example.prevcol.DETECTION_STATE_CHANGED").setPackage(packageName))
 
-        if (lifecycleRegistry.currentState == Lifecycle.State.DESTROYED) {
-            lifecycleRegistry = LifecycleRegistry(serviceLifecycleOwner)
-            lifecycleRegistry.currentState = Lifecycle.State.CREATED
+            if (lifecycleRegistry.currentState == Lifecycle.State.DESTROYED) {
+                lifecycleRegistry = LifecycleRegistry(serviceLifecycleOwner)
+                lifecycleRegistry.currentState = Lifecycle.State.CREATED
+            }
+            lifecycleRegistry.currentState = Lifecycle.State.STARTED
+
+            maybeUpdateServiceNotification(force = true)
+
+            accelerometer?.let {
+                sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+            }
+            proximitySensor?.let {
+                sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+            }
+
+            if (useCameraDetection) {
+                try {
+                    cameraDetector?.start(serviceLifecycleOwner)
+                } catch (e: Exception) {
+                    Log.e(logTag, "Échec démarrage caméra, bascule en mode simulation", e)
+                    useCameraDetection = false
+                    cameraDetector?.stop()
+                }
+            }
+
+            if (isScreenInteractive && !isInPocket) {
+                radarOverlay.show()
+            }
+
+            handler.removeCallbacks(detectionPoll)
+            handler.post(detectionPoll)
+        } catch (e: Exception) {
+            Log.e(logTag, "Échec démarrage surveillance", e)
+            isRunning = false
+            getSharedPreferences("app_prefs", MODE_PRIVATE).edit().putBoolean("detection_active", false).apply()
+            sendBroadcast(Intent("com.example.prevcol.DETECTION_STATE_CHANGED").setPackage(packageName))
+            radarOverlay.hide()
+            stopForeground(STOP_FOREGROUND_REMOVE)
+            stopSelf()
         }
-        lifecycleRegistry.currentState = Lifecycle.State.STARTED
-        
-        // Démarre avec la notification de service permanente
-        maybeUpdateServiceNotification(force = true)
-        
-        // Active le détecteur de mouvement et proximité
-        accelerometer?.let {
-            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
-        }
-        proximitySensor?.let {
-            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
-        }
-        
-        // Démarre la caméra si disponible (sur le main thread)
-        if (useCameraDetection) {
-            cameraDetector?.start(serviceLifecycleOwner)
-        }
-        
-        handler.post(detectionPoll)
     }
 
     private fun stopDetection() {
         if (!isRunning) return
         isRunning = false
+        getSharedPreferences("app_prefs", MODE_PRIVATE).edit().putBoolean("detection_active", false).apply()
+        sendBroadcast(Intent("com.example.prevcol.DETECTION_STATE_CHANGED").setPackage(packageName))
         handler.removeCallbacks(detectionPoll)
         radarOverlay.hide()
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
@@ -314,9 +336,10 @@ class DetectionService : Service(), SensorEventListener {
                 }
                 
                 maybeUpdateServiceNotification(useCameraDetection, hasDetection)
+                radarOverlay.show()
                 
                 if (distance == null || !hasDetection) {
-                    radarOverlay.hide()
+                    radarOverlay.clearDetections()
                     val notificationManager = NotificationManagerCompat.from(this@DetectionService)
                     if (isAlertShowing) {
                         notificationManager.cancel(ALERT_NOTIFICATION_ID)
@@ -325,12 +348,7 @@ class DetectionService : Service(), SensorEventListener {
                     isDanger = false
                 } else {
                     updateAlertNotification(distance, isRapidApproach, objectType)
-                    if (isWalking) {
-                        radarOverlay.show()
-                        radarOverlay.updateDetections(distance, angle, objectType, height, direction)
-                    } else {
-                        radarOverlay.hide()
-                    }
+                    radarOverlay.updateDetections(distance, angle, objectType, height, direction)
                     handleAlerts(distance, isRapidApproach, objectType)
                 }
                 
@@ -459,7 +477,6 @@ class DetectionService : Service(), SensorEventListener {
             .setAutoCancel(false)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setColor(ContextCompat.getColor(this, colorResId))
-            .setFullScreenIntent(pendingIntent, distanceM < dangerThreshold)  // HeadsUp si danger
             .build()
 
         if (alertKey != lastAlertNotificationKey || now - lastAlertNotificationTime >= alertNotificationMinIntervalMs) {
@@ -476,6 +493,10 @@ class DetectionService : Service(), SensorEventListener {
         val isPerson = detectedType == ObjectType.ADULTE || detectedType == ObjectType.ENFANT || detectedType == ObjectType.BEBE
         if (!isPerson) return
 
+        val settingsPrefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val vibrationEnabled = settingsPrefs.getBoolean("vibration_enabled", true)
+        val soundEnabled = settingsPrefs.getBoolean("sound_enabled", true)
+
         val now = SystemClock.elapsedRealtime()
         val dangerThreshold = when (detectedType) {
             ObjectType.ADULTE -> 1.5f
@@ -486,7 +507,8 @@ class DetectionService : Service(), SensorEventListener {
         val objectType = detectedType
 
         if (distanceM < dangerThreshold && now - lastVibrationTime > minVibrationIntervalMs) {
-            val v = getSystemService(VIBRATOR_SERVICE) as Vibrator
+            if (vibrationEnabled) {
+            val v = getVibratorCompat()
             // Pattern de vibration selon le type d'objet
             val pattern: LongArray = when {
                 isRapidApproach -> longArrayOf(0, 500)             // Longue continue
@@ -504,24 +526,39 @@ class DetectionService : Service(), SensorEventListener {
             } else {
                 @Suppress("DEPRECATION") v.vibrate(pattern, -1)
             }
+            } // end vibrationEnabled
             lastVibrationTime = now
-            gameStats.recordAlert("danger")
 
             // Bip adapté
-            val norm = (distanceM / dangerThreshold).coerceIn(0f, 1f)
-            tone.startTone(ToneGenerator.TONE_PROP_BEEP, (50 + norm * 300).toInt())
+            if (soundEnabled) {
+                val norm = (distanceM / dangerThreshold).coerceIn(0f, 1f)
+                tone.startTone(ToneGenerator.TONE_PROP_BEEP, (50 + norm * 300).toInt())
+            }
         }
 
         if (isRapidApproach && now - lastRapidApproachTime > minRapidApproachIntervalMs) {
-            val v = getSystemService(VIBRATOR_SERVICE) as Vibrator
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
-            } else {
-                @Suppress("DEPRECATION") v.vibrate(100)
+            if (vibrationEnabled) {
+                val v = getVibratorCompat()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                } else {
+                    @Suppress("DEPRECATION") v.vibrate(100)
+                }
             }
             lastRapidApproachTime = now
-            gameStats.recordAlert("rapid")
-            tone.startTone(ToneGenerator.TONE_DTMF_1, 100)
+            if (soundEnabled) {
+                tone.startTone(ToneGenerator.TONE_DTMF_1, 100)
+            }
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun getVibratorCompat(): Vibrator {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vm = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as android.os.VibratorManager
+            vm.defaultVibrator
+        } else {
+            getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
     }
 

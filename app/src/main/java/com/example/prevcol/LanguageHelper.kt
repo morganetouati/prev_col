@@ -55,7 +55,6 @@ object LanguageHelper {
     /**
      * Change language and restart the activity to apply changes.
      */
-    @Suppress("DEPRECATION")
     fun changeLanguage(activity: Activity, languageCode: String) {
         saveLanguage(activity, languageCode)
         
@@ -63,7 +62,15 @@ object LanguageHelper {
         val intent = activity.intent
         activity.finish()
         activity.startActivity(intent)
-        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        if (Build.VERSION.SDK_INT >= 34) {
+            activity.overrideActivityTransition(
+                Activity.OVERRIDE_TRANSITION_OPEN,
+                android.R.anim.fade_in, android.R.anim.fade_out
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
     }
     
     /**

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Palette unique "Regards au monde" - Indigo nocturne avec accents néon -->
-    <color name="primary">#1A1B2E</color>
-    <color name="primary_dark">#0D0E1A</color>
-    <color name="primary_variant">#252744</color>
+    <!-- Mode jour — palette claire -->
+    <color name="primary">#F0F2F5</color>
+    <color name="primary_dark">#E0E3E8</color>
+    <color name="primary_variant">#D8DBE2</color>
     
-    <!-- Accents néon distinctifs -->
-    <color name="accent">#00F5D4</color>
-    <color name="accent_purple">#8B5CF6</color>
-    <color name="accent_coral">#FF6B6B</color>
-    <color name="accent_amber">#FFB347</color>
+    <!-- Accents -->
+    <color name="accent">#00B8A9</color>
+    <color name="accent_purple">#7C3AED</color>
+    <color name="accent_coral">#E05252</color>
+    <color name="accent_amber">#E09830</color>
     
     <!-- Surfaces -->
-    <color name="surface">#1E2038</color>
-    <color name="surface_elevated">#2A2D52</color>
-    <color name="card_background">#232544</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_elevated">#F5F6FA</color>
+    <color name="card_background">#FFFFFF</color>
     
     <!-- Textes -->
-    <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#B8B9CC</color>
-    <color name="text_hint">#6B6D8A</color>
+    <color name="text_primary">#1A1B2E</color>
+    <color name="text_secondary">#555770</color>
+    <color name="text_hint">#9498B3</color>
     
     <!-- États d'alerte -->
     <color name="danger_red">#FF4757</color>
@@ -32,6 +32,7 @@
     <color name="gradient_end">#00F5D4</color>
     
     <!-- Overlay -->
-    <color name="overlay_dark">#CC0D0E1A</color>
-    <color name="ripple_color">#4000F5D4</color>
+    <color name="overlay_screen">#C0F0F2F5</color>
+    <color name="overlay_dark">#80000000</color>
+    <color name="ripple_color">#4000B8A9</color>
 </resources>

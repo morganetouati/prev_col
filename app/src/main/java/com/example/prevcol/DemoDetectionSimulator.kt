@@ -65,7 +65,7 @@ object DemoDetectionSimulator {
                 initialDirection = direction
                 
                 // Type aléatoire, mais VERROUILLÉ pendant 60s (pas de changement)
-                currentObjectType = ObjectType.values().random()
+                currentObjectType = ObjectType.entries.toTypedArray().random()
                 objectHeight = Random.nextFloat() * 
                     (currentObjectType.heightRange.second - currentObjectType.heightRange.first) + 
                     currentObjectType.heightRange.first
