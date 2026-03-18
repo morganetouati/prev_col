@@ -29,6 +29,19 @@ class PrivacyActivity : AppCompatActivity() {
             if (nightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
         )
         
+        // Sélecteur de langue au tout premier lancement
+        val langPrefs = getSharedPreferences("language_prefs", MODE_PRIVATE)
+        if (!langPrefs.getBoolean("language_chosen", false)) {
+            showStartupLanguageSelector()
+            return
+        }
+        
+        proceedAfterLanguage()
+    }
+    
+    private fun proceedAfterLanguage() {
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        
         // Si déjà accepté, aller directement à MainActivity
         if (prefs.getBoolean("privacy_accepted", false)) {
             startActivity(Intent(this, MainActivity::class.java))
@@ -84,6 +97,23 @@ class PrivacyActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+    
+    private fun showStartupLanguageSelector() {
+        val languages = LanguageHelper.LANGUAGES
+        val languageNames = languages.map { it.second }.toTypedArray()
+        
+        AlertDialog.Builder(this)
+            .setTitle("🌍 Choose your language / Choisissez votre langue")
+            .setItems(languageNames) { _, which ->
+                val selectedLang = languages[which].first
+                LanguageHelper.saveLanguage(this, selectedLang)
+                getSharedPreferences("language_prefs", MODE_PRIVATE)
+                    .edit().putBoolean("language_chosen", true).apply()
+                recreate()
+            }
+            .setCancelable(false)
             .show()
     }
 }

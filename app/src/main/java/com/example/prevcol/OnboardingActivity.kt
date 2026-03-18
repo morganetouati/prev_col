@@ -42,20 +42,25 @@ class OnboardingActivity : AppCompatActivity() {
 
         val slides = listOf(
             OnboardingSlide(
-                R.drawable.fiche_1,
+                R.drawable.fiche1,
+                R.string.app_title,
+                R.string.app_subtitle
+            ),
+            OnboardingSlide(
+                R.drawable.fiche3,
                 R.string.onboarding_title_1,
                 R.string.onboarding_desc_1
             ),
             OnboardingSlide(
-                R.drawable.fiche_2,
+                R.drawable.fiche4,
                 R.string.onboarding_title_2,
                 R.string.onboarding_desc_2
             ),
             OnboardingSlide(
-                R.drawable.ic_eye_logo,
+                R.drawable.fiche2,
                 R.string.onboarding_title_3,
                 R.string.onboarding_desc_3
-            )
+            ),
         )
 
         val adapter = OnboardingAdapter(slides)

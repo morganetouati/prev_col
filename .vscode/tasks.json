@@ -7,6 +7,27 @@
 			"command": "cd c:\\Users\\morgane\\Desktop\\prev_col; .\\gradlew.bat :app:bundleRelease --no-daemon --console=plain",
 			"isBackground": false,
 			"group": "build"
+		},
+		{
+			"label": "Build Release AAB Verify",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Set-Location 'c:\\Users\\morgane\\Desktop\\prev_col'; .\\gradlew.bat --stop; .\\gradlew.bat :app:bundleRelease --no-daemon --console=plain; Write-Host '===AAB_SEARCH==='; Get-ChildItem '.\\app\\build' -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -eq '.aab' } | Select-Object FullName,Length,LastWriteTime | Format-List"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "Build Release AAB Verify 2",
+			"type": "shell",
+			"command": "Set-Location \"c:\\Users\\morgane\\Desktop\\prev_col\"; .\\gradlew.bat --stop; .\\gradlew.bat :app:bundleRelease --no-daemon --console=plain; Write-Host '===AAB_SEARCH==='; Get-ChildItem .\\app\\build -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -eq '.aab' } | Select-Object FullName,Length,LastWriteTime | Format-List",
+			"isBackground": false,
+			"group": "build"
 		}
 	]
 }

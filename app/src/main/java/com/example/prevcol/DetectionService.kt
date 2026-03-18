@@ -45,6 +45,7 @@ class DetectionService : Service(), SensorEventListener {
     // Détecteur caméra ML Kit (null si permission caméra absente)
     private var cameraDetector: CameraDetector? = null
     private var useCameraDetection = false
+    private var isCameraStreaming = false
     private var lastCameraResult: CameraDetector.CameraDetectionResult? = null
     private var lastCameraResultTime = 0L
     private val cameraResultTimeoutMs = 2000L  // Si pas de résultat caméra depuis 2s → no detection
@@ -71,6 +72,7 @@ class DetectionService : Service(), SensorEventListener {
                 Intent.ACTION_SCREEN_OFF -> {
                     // Écran éteint / verrouillé → mise en veille immédiate
                     isScreenInteractive = false
+                    refreshCameraLifecycle()
                     radarOverlay.hide()
                     val nm = NotificationManagerCompat.from(this@DetectionService)
                     if (isAlertShowing) {
@@ -83,8 +85,35 @@ class DetectionService : Service(), SensorEventListener {
                 Intent.ACTION_USER_PRESENT -> {
                     // Utilisateur a déverrouillé l'écran → reprise
                     isScreenInteractive = true
+                    refreshCameraLifecycle()
                 }
             }
+        }
+    }
+
+    private fun shouldUseCameraNow(): Boolean {
+        return useCameraDetection && isScreenInteractive && !isInPocket && isWalking
+    }
+
+    private fun refreshCameraLifecycle() {
+        if (!useCameraDetection) return
+
+        val shouldRun = shouldUseCameraNow()
+        if (shouldRun && !isCameraStreaming) {
+            try {
+                cameraDetector?.start(serviceLifecycleOwner)
+                isCameraStreaming = true
+            } catch (e: Exception) {
+                Log.e(logTag, "Échec démarrage caméra, bascule en mode simulation", e)
+                isCameraStreaming = false
+                useCameraDetection = false
+                cameraDetector?.stop()
+            }
+        } else if (!shouldRun && isCameraStreaming) {
+            cameraDetector?.stop()
+            isCameraStreaming = false
+            lastCameraResult = null
+            lastCameraResultTime = 0L
         }
     }
 
@@ -192,27 +221,14 @@ class DetectionService : Service(), SensorEventListener {
             }
             lifecycleRegistry.currentState = Lifecycle.State.STARTED
 
-            maybeUpdateServiceNotification(force = true)
+            refreshCameraLifecycle()
+            maybeUpdateServiceNotification(usingCamera = isCameraStreaming, force = true)
 
             accelerometer?.let {
                 sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
             }
             proximitySensor?.let {
                 sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
-            }
-
-            if (useCameraDetection) {
-                try {
-                    cameraDetector?.start(serviceLifecycleOwner)
-                } catch (e: Exception) {
-                    Log.e(logTag, "Échec démarrage caméra, bascule en mode simulation", e)
-                    useCameraDetection = false
-                    cameraDetector?.stop()
-                }
-            }
-
-            if (isScreenInteractive && !isInPocket) {
-                radarOverlay.show()
             }
 
             handler.removeCallbacks(detectionPoll)
@@ -239,6 +255,9 @@ class DetectionService : Service(), SensorEventListener {
         
         // Arrête la caméra
         cameraDetector?.stop()
+        isCameraStreaming = false
+        lastCameraResult = null
+        lastCameraResultTime = 0L
         
         // Désactive le détecteur de mouvement
         sensorManager.unregisterListener(this)
@@ -274,8 +293,9 @@ class DetectionService : Service(), SensorEventListener {
 
                 // Si téléphone dans la poche OU écran verrouillé → veille complète
                 if (isInPocket || !isScreenInteractive) {
+                    refreshCameraLifecycle()
                     radarOverlay.hide()
-                    maybeUpdateServiceNotification(useCameraDetection, hasDetection = false)
+                    maybeUpdateServiceNotification(isCameraStreaming, hasDetection = false)
                     handler.postDelayed(this, idlePollIntervalMs)
                     return
                 }
@@ -284,6 +304,7 @@ class DetectionService : Service(), SensorEventListener {
                 if (now - lastMotionTime > immobileTimeoutMs) {
                     isWalking = false
                 }
+                refreshCameraLifecycle()
                 
                 // SOURCE DE DÉTECTION : caméra si disponible, simulateur sinon
                 val distance: Float?
@@ -294,7 +315,7 @@ class DetectionService : Service(), SensorEventListener {
                 val direction: DemoDetectionSimulator.MovementDirection
                 val isRapidApproach: Boolean
 
-                if (useCameraDetection) {
+                if (useCameraDetection && isCameraStreaming) {
                     val camResult = lastCameraResult
                     val camFresh = (now - lastCameraResultTime) < cameraResultTimeoutMs
                     if (camResult != null && camFresh) {
@@ -335,11 +356,11 @@ class DetectionService : Service(), SensorEventListener {
                     isRapidApproach = DemoDetectionSimulator.isRapidApproach
                 }
                 
-                maybeUpdateServiceNotification(useCameraDetection, hasDetection)
-                radarOverlay.show()
+                maybeUpdateServiceNotification(isCameraStreaming, hasDetection)
                 
                 if (distance == null || !hasDetection) {
                     radarOverlay.clearDetections()
+                    radarOverlay.hide()
                     val notificationManager = NotificationManagerCompat.from(this@DetectionService)
                     if (isAlertShowing) {
                         notificationManager.cancel(ALERT_NOTIFICATION_ID)
@@ -348,6 +369,7 @@ class DetectionService : Service(), SensorEventListener {
                     isDanger = false
                 } else {
                     updateAlertNotification(distance, isRapidApproach, objectType)
+                    radarOverlay.show()
                     radarOverlay.updateDetections(distance, angle, objectType, height, direction)
                     handleAlerts(distance, isRapidApproach, objectType)
                 }
@@ -569,6 +591,7 @@ class DetectionService : Service(), SensorEventListener {
                 // Capteur proximité: détecte si le téléphone est dans une poche
                 val maxRange = event.sensor.maximumRange
                 isInPocket = event.values[0] < maxRange
+                refreshCameraLifecycle()
                 if (isInPocket) {
                     radarOverlay.hide()
                 }
@@ -585,6 +608,7 @@ class DetectionService : Service(), SensorEventListener {
                 if (acceleration > motionThreshold) {
                     isWalking = true
                     lastMotionTime = SystemClock.elapsedRealtime()
+                    refreshCameraLifecycle()
                 }
             }
         }

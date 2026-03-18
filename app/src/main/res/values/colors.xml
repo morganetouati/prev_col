@@ -20,6 +20,7 @@
     <color name="text_primary">#1A1B2E</color>
     <color name="text_secondary">#555770</color>
     <color name="text_hint">#9498B3</color>
+    <color name="settings_icon_tint">#9AA0B8</color>
     
     <!-- États d'alerte -->
     <color name="danger_red">#FF4757</color>

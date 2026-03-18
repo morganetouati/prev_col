@@ -24,8 +24,8 @@ android {
         applicationId "com.regardsaumonde.app"
         minSdk 23
         targetSdk 35
-        versionCode 10
-        versionName "1.3.0"
+        versionCode 15
+        versionName "1.4.0"
 
         resValue "string", "admob_app_id", "\"${admobAppId}\""
         resValue "string", "admob_banner_id", "\"${admobBannerId}\""

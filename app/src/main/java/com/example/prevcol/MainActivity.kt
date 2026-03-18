@@ -123,7 +123,16 @@ class MainActivity : AppCompatActivity() {
         // Demande permissions au premier lancement
         requestPermissionsIfNeeded()
 
-        findViewById<Button>(R.id.privacyOptionsButton).setOnClickListener {
+        val privacyOptionsBtn = findViewById<Button>(R.id.privacyOptionsButton)
+        // Afficher le bouton uniquement si le formulaire de consentement est disponible
+        val consentInfo = com.google.android.ump.UserMessagingPlatform.getConsentInformation(this)
+        if (consentInfo.privacyOptionsRequirementStatus ==
+            com.google.android.ump.ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED) {
+            privacyOptionsBtn.visibility = android.view.View.VISIBLE
+        } else {
+            privacyOptionsBtn.visibility = android.view.View.GONE
+        }
+        privacyOptionsBtn.setOnClickListener {
             AdManager.showPrivacyOptions(this) { updated ->
                 if (updated) {
                     AdManager.loadAdaptiveBanner(this@MainActivity, adContainer)
@@ -132,6 +141,12 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, getString(R.string.privacy_options_unavailable), Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        findViewById<Button>(R.id.privacyPolicyButton).setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://morganetouati.github.io/prev_col/privacy/"))
+            startActivity(intent)
         }
 
         findViewById<Button>(R.id.appDescriptionButton).setOnClickListener {
@@ -253,7 +268,7 @@ class MainActivity : AppCompatActivity() {
         val overlayAsked = prefs.getBoolean("overlay_asked", false)
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this) && !overlayAsked) {
-            AlertDialog.Builder(this)
+            val overlayDialog = AlertDialog.Builder(this)
                 .setTitle(getString(R.string.permission_dialog_title))
                 .setMessage(getString(R.string.permission_dialog_message))
                 .setPositiveButton(getString(R.string.permission_overlay_button)) { _, _ ->
@@ -270,7 +285,22 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, getString(R.string.overlay_optional_message), Toast.LENGTH_LONG).show()
                 }
                 .setCancelable(false)
-                .show()
+                .create()
+
+            overlayDialog.setOnShowListener {
+                // Forcer un gris foncé lisible pour le texte du message de permission
+                val darkGray = android.graphics.Color.parseColor("#333333")
+                overlayDialog.findViewById<TextView>(android.R.id.message)?.setTextColor(darkGray)
+                // Titre aussi en gris foncé
+                val titleId = resources.getIdentifier("alertTitle", "id", "android")
+                if (titleId != 0) {
+                    overlayDialog.findViewById<TextView>(titleId)?.setTextColor(darkGray)
+                }
+                // Boutons en gris foncé
+                overlayDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(darkGray)
+                overlayDialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(darkGray)
+            }
+            overlayDialog.show()
         }
     }
 }

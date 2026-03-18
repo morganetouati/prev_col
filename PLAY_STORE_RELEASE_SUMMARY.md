@@ -1,9 +1,9 @@
-# 🚀 Play Store Release v1.2.1 – Ready to Upload
+# 🚀 Play Store Release v1.3.2 – Ready to Upload
 
 **Status:** ✅ READY  
-**Date:** March 4, 2026  
-**versionCode:** 6  
-**versionName:** 1.2.1
+**Date:** March 13, 2026  
+**versionCode:** 12  
+**versionName:** 1.3.2
 
 ---
 
@@ -31,7 +31,7 @@ R8: Minified & optimized ✅
 | **App Name** | Regards au monde |
 | **Short Description** | Privacy-first proximity awareness using on-device ML |
 | **Full Description** | See `RELEASE_NOTES_v1.2.1.md` |
-| **Changelog (v1.2.1)** | Screen lock sleep mode + Improved people detection + Tablet support |
+| **Changelog (v1.3.2)** | Camera sleep optimization + Onboarding intro slide + UI visibility fixes |
 | **Category** | Utilities / Safety (your choice) |
 | **Content Rating** | General (no mature content) |
 | **Min SDK** | 24 (Android 7.0) |

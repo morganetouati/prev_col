@@ -57,6 +57,9 @@ object LanguageHelper {
      */
     fun changeLanguage(activity: Activity, languageCode: String) {
         saveLanguage(activity, languageCode)
+        // Marquer que l'utilisateur a explicitement choisi une langue
+        activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit().putBoolean("language_chosen", true).apply()
         
         // Restart the activity to apply new language
         val intent = activity.intent
