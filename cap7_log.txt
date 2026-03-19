@@ -1,0 +1,56 @@
+===== TABLET 7 SCREENSHOT CAPTURE =====
+[INFO] Device: emulator-5554
+[1] Going home
+[2] Launching PrivacyActivity
+Starting: Intent { cmp=com.regardsaumonde.app/com.example.prevcol.PrivacyActivity }
+Warning: Activity not started, its current task has been brought to the front
+[3] Selecting French
+[4] Screenshot: Privacy
+/sdcard/s1.png: 1 file pulled, 0 skipped. 7.0 MB/s (973840 bytes in 0.133s)
+[OK] 01_privacy.png captured
+[5] Scrolling down to button
+[6] Tapping COMPRENDRE ET CONTINUER (600,1578)
+[7] Checking current activity
+[8] If still on Privacy, try launching MainActivity directly
+Starting: Intent { cmp=com.regardsaumonde.app/com.example.prevcol.MainActivity }
+
+Exception occurred while executing 'start':
+java.lang.SecurityException: Permission Denial: starting Intent { flg=0x10000000 cmp=com.regardsaumonde.app/com.example.prevcol.MainActivity } from null (pid=7352, uid=2000) not exported from uid 10212
+	at com.android.server.wm.ActivityTaskSupervisor.checkStartAnyActivityPermission(ActivityTaskSupervisor.java:1170)
+	at com.android.server.wm.ActivityStarter.executeRequest(ActivityStarter.java:1118)
+	at com.android.server.wm.ActivityStarter.execute(ActivityStarter.java:782)
+	at com.android.server.wm.ActivityTaskManagerService.startActivityAsUser(ActivityTaskManagerService.java:1312)
+	at com.android.server.wm.ActivityTaskManagerService.startActivityAsUser(ActivityTaskManagerService.java:1257)
+	at com.android.server.am.ActivityManagerService.startActivityAsUserWithFeature(ActivityManagerService.java:3339)
+	at com.android.server.am.ActivityManagerShellCommand.runStartActivity(ActivityManagerShellCommand.java:800)
+	at com.android.server.am.ActivityManagerShellCommand.onCommand(ActivityManagerShellCommand.java:246)
+	at com.android.modules.utils.BasicShellCommandHandler.exec(BasicShellCommandHandler.java:97)
+	at android.os.ShellCommand.exec(ShellCommand.java:38)
+	at com.android.server.am.ActivityManagerService.onShellCommand(ActivityManagerService.java:10471)
+	at android.os.Binder.shellCommand(Binder.java:1230)
+	at android.os.Binder.onTransact(Binder.java:1043)
+	at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:5675)
+	at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:2812)
+	at android.os.Binder.execTransactInternal(Binder.java:1505)
+	at android.os.Binder.execTransact(Binder.java:1444)
+[9] Dismiss any system dialogs
+[10] Screenshot: Main
+/sdcard/s2.png: 1 file pulled, 0 skipped. 20.8 MB/s (2240779 bytes in 0.103s)
+[OK] 02_main.png captured
+[11] Getting screen size
+Screen size: 1200x1920
+[12] Scrolling to badges
+[13] Screenshot: Badges
+/sdcard/s3.png: 1 file pulled, 0 skipped. 17.7 MB/s (2256041 bytes in 0.121s)
+[OK] 03_main_badges.png captured
+[14] Scrolling more to buttons
+[15] Screenshot: Buttons
+[  2%] /sdcard/s4.png
+[OK] 04_main_buttons.png captured
+[16] Cleanup device files
+===== RESULTS =====
+01_privacy.png - 973840 bytes
+02_main.png - 2240779 bytes
+03_main_badges.png - 2256041 bytes
+04_main_buttons.png - 1048576 bytes
+===== TABLET 7 COMPLETE =====

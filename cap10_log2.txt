@@ -1,0 +1,35 @@
+===== TABLET 10 SCREENSHOT CAPTURE =====
+[INFO] Device: emulator-5554
+[1] Going home
+[2] Launching PrivacyActivity
+Starting: Intent { cmp=com.regardsaumonde.app/com.example.prevcol.PrivacyActivity }
+^CTerminer le programme de commandes (O/N)ÿ? Terminer le programme de commandes (O/N)ÿ? ^C
+[3] Dumping UI to find language dialog
+[4] Selecting French (tap center of Francais item at bounds [366,251][914,299])
+[5] Screenshot: Privacy
+/sdcard/s1.png: 1 file pulled, 0 skipped. 1.4 MB/s (33856 bytes in 0.023s)
+[OK] 01_privacy.png captured
+[6] Scrolling down
+[7] Dumping UI for accept button
+[8] Finding and tapping accept button
+Tapping accept at 640, 700
+[9] Checking activity
+[10] Dismiss any dialogs
+[11] Screenshot: Main
+/sdcard/s2.png: 1 file pulled, 0 skipped. 1.7 MB/s (33856 bytes in 0.019s)
+[OK] 02_main.png captured
+[12] Scrolling to badges
+[13] Screenshot: Badges
+/sdcard/s3.png: 1 file pulled, 0 skipped. 2.1 MB/s (33856 bytes in 0.015s)
+[OK] 03_badges.png captured
+[14] Scrolling more
+[15] Screenshot: Buttons
+/sdcard/s4.png: 1 file pulled, 0 skipped. 2.7 MB/s (33856 bytes in 0.012s)
+[OK] 04_buttons.png captured
+[16] Cleanup device files
+===== RESULTS =====
+01_privacy.png - 33856 bytes
+02_main.png - 33856 bytes
+03_badges.png - 33856 bytes
+04_buttons.png - 33856 bytes
+===== TABLET 10 COMPLETE =====

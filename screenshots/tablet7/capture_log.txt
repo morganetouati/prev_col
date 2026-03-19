@@ -1,0 +1,14 @@
+﻿===== TABLET 7 SCREENSHOT CAPTURE =====
+[INFO] Device: emulator-5554
+[1] Going home
+[2] Launching PrivacyActivity
+Starting: Intent { cmp=com.regardsaumonde.app/com.example.prevcol.PrivacyActivity }
+cmd : Warning: Activity not started, its current task has been brought to the 
+front
+Au caractère Ligne:1 : 1
++ cmd /c "c:\Users\morgane\Desktop\prev_col\tools\cap7_auto.bat" 2>&1 | ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: Activi...ht to the front 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

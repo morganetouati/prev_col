@@ -1,0 +1,13 @@
+ Le volume dans le lecteur C s'appelle Windows
+ Le num‚ro de s‚rie du volume est 3CB5-22EB
+
+ R‚pertoire de c:\Users\morgane\Desktop\prev_col\screenshots\tablet7
+
+19/03/2026  15:28    <DIR>          .
+19/03/2026  15:28    <DIR>          ..
+19/03/2026  15:28            46ÿ755 01_privacy.png
+09/03/2026  11:11           143ÿ653 02_main.png
+09/03/2026  11:14           144ÿ075 03_main_badges.png
+09/03/2026  11:15           145ÿ070 04_main_buttons.png
+               4 fichier(s)          479ÿ553 octets
+               2 R‚p(s)   7ÿ121ÿ149ÿ952 octets libres
